@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+/* index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom animations */
+@keyframes tempting-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(34, 211, 238, 0.3), 0 0 10px rgba(34, 211, 238, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.5), 0 0 30px rgba(34, 211, 238, 0.3);
+  }
+}
+
+.animate-tempting-glow {
+  animation: tempting-glow 2s ease-in-out infinite;
+}
+
+/* Focus area animations */
+@keyframes focus-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes focus-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(34, 211, 238, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.6), 0 0 30px rgba(34, 211, 238, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(34, 211, 238, 0.3);
+  }
+}
+
+@keyframes tooltip-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) translateX(-50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(-50%);
+  }
+}
+
+.animate-focus-pulse {
+  animation: focus-pulse 2s ease-in-out infinite;
+}
+
+.animate-focus-glow {
+  animation: focus-glow 3s ease-in-out infinite;
+}
+
+.animate-tooltip-fade-in {
+  animation: tooltip-fade-in 0.3s ease-out;
+}
+
+/* Hover effects for focus areas */
+.focus-pill-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.focus-pill-hover:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Skill tag animations */
+@keyframes skill-tag-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.skill-tag {
+  animation: skill-tag-float 3s ease-in-out infinite;
+  animation-delay: calc(var(--delay) * 0.1s);
+}
+
+/* Outcome list animations */
+@keyframes outcome-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.outcome-item {
+  animation: outcome-slide-in 0.5s ease-out;
+  animation-delay: calc(var(--delay) * 0.1s);
+  animation-fill-mode: both;
+}

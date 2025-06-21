@@ -1,0 +1,13 @@
+
+{
+    "env": {
+        "PORT": "5000",
+        "MONGO_URI": "mongodb+srv://justyuvarajs:justyuvaraj%402005@userdatabase.alujxko.mongodb.net/?retryWrites=true&w=majority&appName=userDatabase",
+        "SESSION_SECRET": "50355525f2f135ff5a25e1c6b8ca7cb0c21aeaf328b3e6f31d9537c0e6073a3fe893ce0df9855047bd5f48d885d806776ed56ea54f6afab6ad7221fbb6b6e273",
+        "FRONTEND_URL": "http://localhost:5173",
+        "GOOGLE_CLIENT_ID": "66892709860-plosr7oo50ttr8nv21l8480upnfg5tl7.apps.googleusercontent.com",
+        "GOOGLE_CLIENT_SECRET": "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",
+        "GITHUB_CLIENT_ID": "Ov23liQtIWDVeXMtfOgZ",
+        "GITHUB_CLIENT_SECRET": "ab7046387f5f8fc30898b9dc27167d563d7fd4a7"
+    }
+}
