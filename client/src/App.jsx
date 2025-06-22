@@ -3,13 +3,14 @@ import { BrowserRouter as Router, Route, Routes, useNavigate, Navigate } from 'r
 import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
 import DashboardPage from './pages/DashboardPage';
-import AuthPage from './AuthPage';
+import AuthPage from './components/auth/AuthPage';
 import RoadmapsPage from './pages/RoadmapsPage';
 import ToolsPage from './pages/ToolsPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import SettingsPage from './pages/SettingsPage';
 import LeaderboardPage from './pages/LeaderboardPage';
 import CoursePage from './pages/CoursePage';
+import PlaygroundPage from './pages/PlaygroundPage';
 import './index.css';
 
 // Protected Route component
@@ -148,6 +149,7 @@ function AppContent() {
               <Route path="/tools" element={<ToolsPage user={user} />} />
               <Route path="/leaderboard" element={<LeaderboardPage />} />
               <Route path="/courses" element={<CoursePage />} />
+              <Route path="/playground" element={<PlaygroundPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </main>

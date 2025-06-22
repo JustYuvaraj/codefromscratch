@@ -53,45 +53,45 @@ const topics = [
     id: "os", 
     label: "Operating Systems", 
     icon: <FcLinux />, 
-    color: "text-orange-400",
-    description: "Understand system internals",
-    skills: ["Process Management", "Memory Management", "File Systems", "Scheduling", "Inter-process Communication"],
-    outcomes: ["Debug system-level issues", "Optimize resource usage", "Build system software"],
-    difficulty: "Advanced",
-    duration: "5-7 weeks"
-  },
-  { 
-    id: "networking", 
-    label: "Computer Networks", 
-    icon: <FontAwesomeIcon icon={faGlobe} />, 
-    color: "text-teal-400",
-    description: "Master network protocols",
-    skills: ["TCP/IP Stack", "HTTP/HTTPS", "DNS & Routing", "Network Security", "WebSockets"],
-    outcomes: ["Build distributed systems", "Optimize network performance", "Implement secure protocols"],
+    color: "text-gray-400",
+    description: "Understand OS concepts and system programming",
+    skills: ["Process Management", "Memory Management", "File Systems", "Threading", "Scheduling"],
+    outcomes: ["Understand system internals", "Optimize system performance", "Build system-level applications"],
     difficulty: "Intermediate to Advanced",
-    duration: "4-6 weeks"
+    duration: "6-8 weeks"
   },
   { 
     id: "frontend", 
     label: "Frontend Development", 
     icon: <GrReactjs />, 
     color: "text-cyan-400",
-    description: "Create stunning user interfaces",
-    skills: ["React.js", "JavaScript ES6+", "CSS3 & Responsive Design", "State Management", "Performance Optimization"],
-    outcomes: ["Build modern web apps", "Create responsive UIs", "Optimize user experience"],
-    difficulty: "Beginner to Intermediate",
-    duration: "6-8 weeks"
+    description: "Build modern web applications",
+    skills: ["HTML/CSS/JS", "React/Angular/Vue", "State Management", "Testing", "Performance"],
+    outcomes: ["Create responsive UIs", "Build scalable applications", "Master modern frameworks"],
+    difficulty: "Beginner to Advanced",
+    duration: "8-12 weeks"
   },
   { 
     id: "backend", 
     label: "Backend Development", 
     icon: <FaServer />, 
     color: "text-purple-400",
-    description: "Build robust server applications",
-    skills: ["Node.js/Express", "RESTful APIs", "Authentication", "Database Integration", "Deployment"],
-    outcomes: ["Create scalable APIs", "Handle user authentication", "Deploy production apps"],
+    description: "Build server-side applications",
+    skills: ["API Design", "Authentication", "Database Integration", "Caching", "Deployment"],
+    outcomes: ["Build robust APIs", "Handle server-side logic", "Deploy scalable applications"],
     difficulty: "Intermediate",
-    duration: "5-7 weeks"
+    duration: "6-8 weeks"
+  },
+  { 
+    id: "networking", 
+    label: "Networking", 
+    icon: <FontAwesomeIcon icon={faGlobe} />, 
+    color: "text-teal-400",
+    description: "Understand network protocols and communication",
+    skills: ["TCP/IP", "HTTP/HTTPS", "DNS", "Load Balancing", "Security"],
+    outcomes: ["Design network architectures", "Optimize network performance", "Implement security protocols"],
+    difficulty: "Intermediate to Advanced",
+    duration: "4-6 weeks"
   },
   { 
     id: "system-design", 

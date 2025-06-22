@@ -1,11 +1,11 @@
 import React from "react";
 import { motion } from 'framer-motion';
-import AlgorithmsSection from "./components/features/AlgorithmsSection";
-import DatabaseSection from "./components/features/DatabaseSection";
-import DataStructuresSection from "./components/features/DataStructuresSection";
-import OperatingSystemsSection from "./components/features/OperatingSystemsSection";
-import FrontendSection from "./components/features/FrontendSection";
-import DummyContent from "./components/ui/DummyContent";
+import AlgorithmsSection from "./AlgorithmsSection";
+import DatabaseSection from "./DatabaseSection";
+import DataStructuresSection from "./DataStructuresSection";
+import OperatingSystemsSection from "./OperatingSystemsSection";
+import FrontendSection from "./FrontendSection";
+import DummyContent from "../ui/DummyContent";
 
 export default function FlowCanvas({ selected }) {
   const renderContent = () => {

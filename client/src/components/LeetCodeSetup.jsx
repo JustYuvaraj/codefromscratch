@@ -2,7 +2,7 @@
 // Component for OAuth users to set their LeetCode username after first login
 
 import React, { useState } from 'react';
-import { validateLeetCodeUsername } from '../services/leetcodeService';
+import { validateLeetCodeUsername } from '../services/leetcodeService.jsx';
 
 export default function LeetCodeSetup({ user, onComplete }) {
   const [leetcodeUsername, setLeetCodeUsername] = useState('');

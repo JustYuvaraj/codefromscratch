@@ -2,8 +2,8 @@
 // This component displays either the Login or Signup form, based on a prop.
 
 import React, { useState, useEffect } from 'react';
-import Login from './components/Login.jsx';
-import Signup from './components/Signup.jsx';
+import Login from '../Login.jsx';
+import Signup from '../Signup.jsx';
 
 export default function AuthPage({ isLogin: initialIsLogin = true }) {
   const [isLogin, setIsLogin] = useState(initialIsLogin);

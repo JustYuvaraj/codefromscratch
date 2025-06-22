@@ -1,7 +1,7 @@
 // client/src/pages/DashboardPage.jsx
 
 import React, { useState, useEffect } from 'react';
-import LeetCodeProfile from '../LeetCodeProfile';
+import LeetCodeProfile from '../components/features/LeetCodeProfile';
 import LeetCodeSetup from '../components/LeetCodeSetup';
 import StreakCalendar from '../components/StreakCalendar';
 import { Trophy, TrendingUp } from 'lucide-react';

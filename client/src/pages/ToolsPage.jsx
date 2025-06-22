@@ -4,8 +4,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SiLeetcode } from "react-icons/si";
-import { FaCode, FaDatabase, FaServer, FaNetworkWired, FaDesktop, FaBook, FaChartBar, FaPlay } from "react-icons/fa";
-import LeetcodeProblems from '../LeetCodeProblems';
+import { FaCode, FaDatabase, FaServer, FaNetworkWired, FaDesktop, FaBook, FaChartBar, FaPlay, FaSitemap, FaEye } from "react-icons/fa";
+import LeetcodeProblems from '../components/features/LeetCodeProblems';
+import RecursionFoundation from '../components/features/RecursionFoundation';
+import CodeVisualizer from '../components/features/CodeVisualizer';
 import LearningPath from '../components/LearningPath';
 
 export default function ToolsPage({ user }) {
@@ -29,15 +31,23 @@ export default function ToolsPage({ user }) {
       bgColor: 'bg-orange-400/10'
     },
     {
-      id: 'coming-soon-1',
-      name: 'Code Visualizer',
-      description: 'Visualize algorithms and data structures',
-      icon: <FaChartBar className="w-6 h-6" />,
+      id: 'recursion-foundation',
+      name: 'Recursion Foundation',
+      description: 'Master recursion fundamentals with essential problems',
+      icon: <FaSitemap className="w-6 h-6" />,
       color: 'text-purple-400',
       bgColor: 'bg-purple-400/10'
     },
     {
-      id: 'coming-soon-2',
+      id: 'code-visualizer',
+      name: 'Code Visualizer',
+      description: 'Step-by-step visualization of code execution with variables and terminal',
+      icon: <FaEye className="w-6 h-6" />,
+      color: 'text-cyan-400',
+      bgColor: 'bg-cyan-400/10'
+    },
+    {
+      id: 'coming-soon-1',
       name: 'Database Designer',
       description: 'Design and visualize database schemas',
       icon: <FaDatabase className="w-6 h-6" />,
@@ -45,7 +55,7 @@ export default function ToolsPage({ user }) {
       bgColor: 'bg-green-400/10'
     },
     {
-      id: 'coming-soon-3',
+      id: 'coming-soon-2',
       name: 'API Tester',
       description: 'Test and debug REST APIs',
       icon: <FaServer className="w-6 h-6" />,
@@ -53,7 +63,7 @@ export default function ToolsPage({ user }) {
       bgColor: 'bg-red-400/10'
     },
     {
-      id: 'coming-soon-4',
+      id: 'coming-soon-3',
       name: 'Network Simulator',
       description: 'Simulate network protocols and configurations',
       icon: <FaNetworkWired className="w-6 h-6" />,
@@ -68,6 +78,10 @@ export default function ToolsPage({ user }) {
         return <LearningPath user={user} />;
       case 'leetcode-problems':
         return <LeetcodeProblems />;
+      case 'recursion-foundation':
+        return <RecursionFoundation />;
+      case 'code-visualizer':
+        return <CodeVisualizer />;
       default:
         return (
           <div className="flex flex-col items-center justify-center text-center p-12">
@@ -120,7 +134,7 @@ export default function ToolsPage({ user }) {
           rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-6 mb-8"
       >
         <h2 className="text-xl font-bold text-white mb-4">Available Tools</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
           {tools.map((tool) => (
             <button
               key={tool.id}
