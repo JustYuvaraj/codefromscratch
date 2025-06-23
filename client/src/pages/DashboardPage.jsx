@@ -1,7 +1,7 @@
 // client/src/pages/DashboardPage.jsx
 
 import React, { useState, useEffect } from 'react';
-import LeetCodeProfile from '../components/features/LeetCodeProfile';
+// import LeetCodeProfile from '../LeetCodeProfile';
 import LeetCodeSetup from '../components/LeetCodeSetup';
 import StreakCalendar from '../components/StreakCalendar';
 import { Trophy, TrendingUp } from 'lucide-react';
@@ -122,9 +122,9 @@ export default function DashboardPage({ user: initialUser }) {
       <LeetCodeSetup user={user} onComplete={handleLeetCodeSetupComplete} />
       
       <div className="min-h-screen bg-[#0f0f0f] text-white p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className="col-span-1">
+        {/* <div className="col-span-1">
           <LeetCodeProfile userName={leetcodeUsername} />
-        </div>
+        </div> */}
 
         {/* Your Profile Card (GitHub style info) */}
         {/* <div className="col-span-1 bg-[#1a1a1a] rounded-xl p-4 shadow-md border border-[#333]">

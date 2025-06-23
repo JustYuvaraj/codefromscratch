@@ -5,9 +5,9 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SiLeetcode } from "react-icons/si";
 import { FaCode, FaDatabase, FaServer, FaNetworkWired, FaDesktop, FaBook, FaChartBar, FaPlay, FaSitemap, FaEye } from "react-icons/fa";
-import LeetcodeProblems from '../components/features/LeetCodeProblems';
-import RecursionFoundation from '../components/features/RecursionFoundation';
-import CodeVisualizer from '../components/features/CodeVisualizer';
+// import LeetcodeProblems from "../LeetCodeProblems";
+// import RecursionFoundation from "../components/features/RecursionFoundation";
+import CodeVisualizer from "../components/features/CodeVisualizer";
 import LearningPath from '../components/LearningPath';
 
 export default function ToolsPage({ user }) {
@@ -29,14 +29,6 @@ export default function ToolsPage({ user }) {
       icon: <SiLeetcode className="w-6 h-6" />,
       color: 'text-orange-400',
       bgColor: 'bg-orange-400/10'
-    },
-    {
-      id: 'recursion-foundation',
-      name: 'Recursion Foundation',
-      description: 'Master recursion fundamentals with essential problems',
-      icon: <FaSitemap className="w-6 h-6" />,
-      color: 'text-purple-400',
-      bgColor: 'bg-purple-400/10'
     },
     {
       id: 'code-visualizer',
@@ -76,10 +68,10 @@ export default function ToolsPage({ user }) {
     switch (activeTool) {
       case 'learning-path':
         return <LearningPath user={user} />;
-      case 'leetcode-problems':
-        return <LeetcodeProblems />;
-      case 'recursion-foundation':
-        return <RecursionFoundation />;
+      // case 'leetcode-problems':
+      //   return <LeetcodeProblems />;
+      // case 'recursion-foundation':
+      //   return <RecursionFoundation />;
       case 'code-visualizer':
         return <CodeVisualizer />;
       default:

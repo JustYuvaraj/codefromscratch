@@ -2,13 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Zap, Code, Target, Trophy, BookOpen, TrendingUp, Calendar, Star } from 'lucide-react';
-import { FaBook, FaCode as FaCodeIcon, FaChartBar, FaDatabase, FaServer, FaNetworkWired, FaDesktop, FaPlay, FaEye } from 'react-icons/fa';
+// import FocusRow from '../FocusRow';
+import FlowCanvas from '../FlowCanvas';
+import { FaBook, FaCode, FaChartBar, FaDatabase, FaServer, FaNetworkWired, FaDesktop, FaPlay, FaEye } from 'react-icons/fa';
 import { SiLeetcode } from 'react-icons/si';
-import LeetcodeProblems from '../components/features/LeetCodeProblems';
-import LearningPath from '../components/LearningPath';
-import FocusRow from '../components/features/FocusRow';
-import FlowCanvas from '../components/features/FlowCanvas';
+// import LeetcodeProblems from '../components/features/LeetCodeProblems';
 import CodeVisualizer from '../components/features/CodeVisualizer';
+import LearningPath from '../components/LearningPath';
 
 const Feature = ({ icon, title, text }) => (
   <div className="flex items-start space-x-4">
@@ -40,7 +40,51 @@ const childVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-// Authenticated HomePage Component
+// Code Playground Section Component
+function CodePlayground() {
+  const [code, setCode] = useState(
+`// Welcome to the interactive playground!
+// Use console.log() to display variables.
+
+function greet(name) {
+  return "Hello, " + name + "!";
+}
+
+const message = greet("World");
+console.log(message);`
+  );
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.3 }}
+      className="bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] 
+        rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-8"
+    >
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-bold text-white">💻 Code Playground</h2>
+        <p className="text-white/60 text-sm">Visualize your code live!</p>
+      </div>
+
+      <div className="flex flex-col lg:flex-row gap-4">
+        <div className="lg:w-1/3 w-full">
+           <h3 className="text-lg font-bold text-white mb-2">Your Code</h3>
+           <textarea
+            className="w-full h-96 font-mono p-4 border rounded-lg bg-[#1e1e1e] text-white border-gray-700 focus:ring-2 focus:ring-blue-500 transition-all"
+            value={code}
+            onChange={e => setCode(e.target.value)}
+          />
+        </div>
+        <div className="lg:w-2/3 w-full">
+           <CodeVisualizer code={code} />
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+// Authenticated Homepage Component
 function AuthenticatedHomePage({ user }) {
   const [recentProblems, setRecentProblems] = useState([
     { id: 1, title: "Two Sum", difficulty: "Easy", status: "solved", category: "Array", timeAgo: "2 hours ago" },
@@ -327,7 +371,7 @@ function AuthenticatedHomePage({ user }) {
         <div className="bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] 
           rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-6">
           <div className="flex items-center gap-3 mb-4">
-            <FaCodeIcon className="w-6 h-6 text-purple-400" />
+            <FaCode className="w-6 h-6 text-purple-400" />
             <h3 className="text-xl font-bold text-white">Coding Tools</h3>
           </div>
           <p className="text-white/70 mb-4">
@@ -371,8 +415,11 @@ function AuthenticatedHomePage({ user }) {
           <h2 className="text-2xl font-bold text-white mb-2">🎯 Choose Your Focus Area</h2>
           <p className="text-white/70">Select a topic to explore interactive learning paths and visualizations</p>
         </div>
-        <FocusRow />
+        {/* <FocusRow /> */}
       </motion.div>
+
+      {/* Code Playground Section */}
+      <CodePlayground />
     </div>
   );
 }
@@ -427,7 +474,7 @@ function UnauthenticatedHomePage() {
       bgColor: 'bg-cyan-400/10'
     },
     {
-      id: 'coming-soon-2',
+      id: 'coming-soon-1',
       name: 'Database Designer',
       description: 'Design and visualize database schemas',
       icon: <FaDatabase className="w-6 h-6" />,
@@ -435,7 +482,7 @@ function UnauthenticatedHomePage() {
       bgColor: 'bg-green-400/10'
     },
     {
-      id: 'coming-soon-3',
+      id: 'coming-soon-2',
       name: 'API Tester',
       description: 'Test and debug REST APIs',
       icon: <FaServer className="w-6 h-6" />,
@@ -443,12 +490,12 @@ function UnauthenticatedHomePage() {
       bgColor: 'bg-red-400/10'
     },
     {
-      id: 'coming-soon-4',
+      id: 'coming-soon-3',
       name: 'Network Simulator',
       description: 'Simulate network protocols and configurations',
       icon: <FaNetworkWired className="w-6 h-6" />,
-      color: 'text-cyan-400',
-      bgColor: 'bg-cyan-400/10'
+      color: 'text-purple-400',
+      bgColor: 'bg-purple-400/10'
     }
   ];
 
@@ -523,9 +570,9 @@ function UnauthenticatedHomePage() {
   const renderToolContent = () => {
     switch (activeTool) {
       case 'learning-path':
-        return <LearningPath user={null} />;
-      case 'leetcode-problems':
-        return <LeetcodeProblems />;
+        return <LearningPath />;
+      // case 'leetcode-problems':
+      //   return <LeetcodeProblems />;
       case 'code-visualizer':
         return <CodeVisualizer />;
       default:
@@ -540,15 +587,8 @@ function UnauthenticatedHomePage() {
             <p className="text-lg text-white/70 max-w-xl mb-8">
               {tools.find(t => t.id === activeTool)?.description}
             </p>
-            <div className="bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] 
-              rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-8">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <FaPlay className="text-blue-400 text-xl" />
-                <span className="text-blue-400 font-semibold text-lg">Coming Soon!</span>
-              </div>
-              <p className="text-white/70">
-                This tool is currently under development. We're working hard to bring you the best learning experience!
-              </p>
+            <div className="w-full max-w-4xl">
+              <CodeVisualizer />
             </div>
           </div>
         );
@@ -557,17 +597,12 @@ function UnauthenticatedHomePage() {
 
   return (
     <div className="space-y-12 py-12">
-      <div className="bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] 
-        rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-8">
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-white mb-2">🎯 Choose Your Focus Area</h2>
-          <p className="text-white/70">Select a topic to explore interactive learning paths and visualizations</p>
-        </div>
-        <FocusRow onSelect={handleTopicSelect} selectedTopic={selectedTopic} />
+      <div ref={focusRowRef} className="pt-0">
+        {/* <FocusRow onSelect={handleTopicSelect} selectedTopic={selectedTopic} /> */}
       </div>
-
+      
       <div ref={canvasRef}>
-        <FlowCanvas selected={selectedTopic} />
+        {selectedTopic && <FlowCanvas selected={selectedTopic} />}
       </div>
 
       <main className="relative w-full max-w-6xl mx-auto px-6 py-20 min-h-[80vh] flex items-center justify-center
@@ -824,4 +859,3 @@ export default function HomePage({ user, isAuthenticated }) {
   }
   return <UnauthenticatedHomePage />;
 }
-
