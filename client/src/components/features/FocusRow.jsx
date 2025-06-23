@@ -3,11 +3,11 @@ import { motion } from 'framer-motion';
 import { FaCode, FaDatabase, FaServer, FaBrain, FaStar } from 'react-icons/fa';
 
 const topics = [
-    { id: 'data-structures', name: 'Data Structures', icon: <FaCode />, color: 'from-blue-500 to-cyan-500' },
-    { id: 'algorithms', name: 'Algorithms', icon: <FaBrain />, color: 'from-purple-500 to-pink-500' },
-    { id: 'frontend', name: 'Frontend', icon: <FaServer />, color: 'from-green-500 to-teal-500' },
-    { id: 'backend', name: 'Backend', icon: <FaDatabase />, color: 'from-yellow-500 to-orange-500' },
-    { id: 'full-stack', name: 'Full Stack', icon: <FaStar />, color: 'from-red-500 to-rose-500' },
+    { id: 'data-structures', name: 'Data Structures', icon: <FaCode />, color: 'text-blue-400' },
+    { id: 'algorithms', name: 'Algorithms', icon: <FaBrain />, color: 'text-purple-400' },
+    { id: 'frontend', name: 'Frontend', icon: <FaServer />, color: 'text-green-400' },
+    { id: 'backend', name: 'Backend', icon: <FaDatabase />, color: 'text-yellow-400' },
+    { id: 'full-stack', name: 'Full Stack', icon: <FaStar />, color: 'text-red-400' },
 ];
 
 const FocusRow = ({ onSelect = () => {}, selectedTopic = null }) => {
@@ -17,30 +17,19 @@ const FocusRow = ({ onSelect = () => {}, selectedTopic = null }) => {
                 <motion.button
                     key={topic.id}
                     onClick={() => onSelect(topic.id)}
-                    className={`relative rounded-full px-6 py-3 text-lg font-semibold text-white transition-all duration-300 overflow-hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white
-                        ${selectedTopic === topic.id ? 'shadow-lg' : 'shadow-md'}
-                    `}
-                    style={{
-                        background: selectedTopic === topic.id ? `linear-gradient(45deg, var(--color-from), var(--color-to))` : '#1a1a2e',
-                        '--color-from': `var(--color-${topic.color.split(' ')[0].replace('from-', '')})`,
-                        '--color-to': `var(--color-${topic.color.split(' ')[1].replace('to-', '')})`,
-                    }}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    className={`rounded-full border px-5 py-2 text-base font-semibold transition-all duration-300 ${
+                        selectedTopic === topic.id
+                            ? 'border-blue-400 bg-blue-400/10 text-white shadow-[0_0_20px_#3b82f655]'
+                            : 'border-white/10 bg-white/5 text-white/80 hover:border-white/20 hover:bg-white/10 hover:text-white'
+                    }`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                 >
-                    <div className="flex items-center gap-3">
-                        {topic.icon}
+                    <div className="flex items-center gap-2">
+                        <span className={topic.color}>{topic.icon}</span>
                         <span>{topic.name}</span>
                     </div>
-                    {selectedTopic === topic.id && (
-                        <motion.div
-                            layoutId="underline"
-                            className="absolute bottom-0 left-0 right-0 h-1 bg-white"
-                        />
-                    )}
                 </motion.button>
             ))}
         </div>

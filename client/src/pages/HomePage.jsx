@@ -364,8 +364,7 @@ function AuthenticatedHomePage({ user }) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
-        className="bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] 
-          rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-8"
+        className="bg-gradient-to-br from-[#0f0f0f] to-[#1a1a1a] py-12"
       >
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-white mb-2">🎯 Choose Your Focus Area</h2>
