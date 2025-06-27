@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import CodeVisualizer from '../components/features/CodeVisualizer';
 
 export default function PlaygroundPage() {
   const [code, setCode] = useState(
@@ -18,7 +17,7 @@ for (let i = 0; i < 3; i++) {
         onChange={e => setCode(e.target.value)}
       />
       <div className="flex-1 overflow-auto border-t border-gray-700 pt-4">
-        <CodeVisualizer code={code} autoPlayIntervalMs={800} />
+        {/* <CodeVisualizer code={code} autoPlayIntervalMs={800} /> */}
       </div>
     </div>
   );

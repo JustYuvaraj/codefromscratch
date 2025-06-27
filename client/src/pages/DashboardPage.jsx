@@ -5,6 +5,17 @@ import LeetCodeProfile from '../components/features/LeetCodeProfile';
 import LeetCodeSetup from '../components/LeetCodeSetup';
 import StreakCalendar from '../components/StreakCalendar';
 import { Trophy, TrendingUp } from 'lucide-react';
+import DashboardShimmer from './DashboardShimmer';
+
+// Skeleton shimmer component
+function Shimmer({ className = '', style = {} }) {
+  return (
+    <div
+      className={`animate-pulse bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 ${className}`}
+      style={style}
+    />
+  );
+}
 
 // Replace these with dynamic values once you fetch real data
 const totalSubmissions = 10;
@@ -23,6 +34,9 @@ export default function DashboardPage({ user: initialUser }) {
   const [leaderboardPreview, setLeaderboardPreview] = useState([]);
   const [myRanking, setMyRanking] = useState(null);
   const [error, setError] = useState(null);
+  const [progressOverview, setProgressOverview] = useState(null);
+  const [streakData, setStreakData] = useState({});
+  const [recentProblems, setRecentProblems] = useState([]);
 
   // Debug logging
   console.log('DashboardPage render:', { initialUser, user, isLoading, error });
@@ -54,6 +68,9 @@ export default function DashboardPage({ user: initialUser }) {
 
     fetchCurrentUser();
     fetchLeaderboardPreview();
+    fetchProgressOverview();
+    fetchStreakCalendar();
+    fetchRecentProblems();
   }, []);
 
   // Fetch leaderboard preview
@@ -79,6 +96,30 @@ export default function DashboardPage({ user: initialUser }) {
     }
   };
 
+  const fetchProgressOverview = async () => {
+    try {
+      const response = await fetch('/api/progress/overview', { credentials: 'include' });
+      const data = await response.json();
+      if (data.success) setProgressOverview(data.data);
+    } catch (err) {}
+  };
+
+  const fetchStreakCalendar = async () => {
+    try {
+      const response = await fetch('/api/progress/streak-calendar', { credentials: 'include' });
+      const data = await response.json();
+      if (data.success) setStreakData(data.data);
+    } catch (err) {}
+  };
+
+  const fetchRecentProblems = async () => {
+    try {
+      const response = await fetch('/api/progress/solved?limit=5', { credentials: 'include' });
+      const data = await response.json();
+      if (data.success) setRecentProblems(data.data.problems || []);
+    } catch (err) {}
+  };
+
   // Handle LeetCode username update completion
   const handleLeetCodeSetupComplete = (updatedUser) => {
     console.log('LeetCode setup completed:', updatedUser);
@@ -90,14 +131,7 @@ export default function DashboardPage({ user: initialUser }) {
   const leetcodeUsername = user?.leetcodeUsername || 'JustYuvaraj';
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-[#0f0f0f] text-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-white/70">Loading dashboard...</p>
-        </div>
-      </div>
-    );
+    return <DashboardShimmer />;
   }
 
   if (error) {
@@ -121,7 +155,7 @@ export default function DashboardPage({ user: initialUser }) {
       {/* LeetCode Setup Modal for OAuth users */}
       <LeetCodeSetup user={user} onComplete={handleLeetCodeSetupComplete} />
       
-      <div className="min-h-screen bg-[#0f0f0f] text-white p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="min-h-screen bg-[#0f0f0f] text-white px-4 sm:px-8 py-8 grid grid-cols-1 lg:grid-cols-4 gap-6">
         <div className="col-span-1">
           <LeetCodeProfile userName={leetcodeUsername} />
         </div>
@@ -157,24 +191,26 @@ export default function DashboardPage({ user: initialUser }) {
         </div> */}
 
         {/* Right Content */}
-        <div className="col-span-1 lg:col-span-3 space-y-6">
+        <div className="col-span-1 lg:col-span-3 flex flex-col gap-6">
           {/* Problem Stats */}
-          <div className="bg-[#1a1a1a] rounded-xl p-4 border border-[#333] flex items-center justify-between">
+          <div className="bg-white/5 rounded-2xl p-4 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-              <h3 className="text-white text-lg font-semibold">7 / 3586 Solved</h3>
-              <p className="text-sm text-white/60">1 Attempting</p>
+              <h3 className="text-lg sm:text-xl font-semibold text-white mb-1">
+                {progressOverview?.solvedProblems || 0} / {progressOverview?.totalProblems || 0} Solved
+              </h3>
+              <p className="text-xs sm:text-sm text-white/60">{progressOverview?.attemptedProblems || 0} Attempting</p>
             </div>
-            <div className="flex space-x-4 text-sm">
-              <p className="text-green-400">Easy: 6/882</p>
-              <p className="text-yellow-400">Medium: 1/1861</p>
-              <p className="text-red-400">Hard: 0/843</p>
+            <div className="flex flex-wrap gap-4 text-sm">
+              <p className="text-green-400">Easy: {progressOverview?.difficultyStats?.easy?.solved || 0}</p>
+              <p className="text-yellow-400">Medium: {progressOverview?.difficultyStats?.medium?.solved || 0}</p>
+              <p className="text-red-400">Hard: {progressOverview?.difficultyStats?.hard?.solved || 0}</p>
             </div>
           </div>
 
           {/* Leaderboard Preview */}
-          <div className="bg-[#1a1a1a] rounded-xl p-4 border border-[#333]">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-white text-lg font-semibold flex items-center gap-2">
+          <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-4 gap-2">
+              <h3 className="text-lg sm:text-xl font-semibold flex items-center gap-2">
                 <Trophy className="w-5 h-5 text-yellow-400" />
                 Leaderboard
               </h3>
@@ -197,7 +233,7 @@ export default function DashboardPage({ user: initialUser }) {
 
             <div className="space-y-2">
               {leaderboardPreview.map((entry, index) => (
-                <div key={entry.userId} className="flex items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors">
+                <div key={entry.userId} className="flex flex-col sm:flex-row items-center justify-between p-2 rounded-lg hover:bg-white/5 transition-colors gap-2">
                   <div className="flex items-center gap-3">
                     <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
                       index === 0 ? 'bg-yellow-400 text-black' :
@@ -213,7 +249,7 @@ export default function DashboardPage({ user: initialUser }) {
                         alt="avatar"
                         className="w-6 h-6 rounded-full"
                       />
-                      <span className="text-white text-sm">{entry.name}</span>
+                      <span className="text-white text-sm truncate max-w-[100px] sm:max-w-[160px]">{entry.name}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -225,51 +261,36 @@ export default function DashboardPage({ user: initialUser }) {
             </div>
           </div>
 
-          {/* Calendar Heatmap */}
-          <div className="bg-[#1a1a1a] rounded-xl p-4 border border-[#333]">
-            <div className="flex justify-between items-center text-sm mb-3 h-[50px]">
-              <span
-                className="text-white font-medium h-[32px] flex items-center bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 hover:bg-white/20 transition"
-              >
-                {totalSubmissions} submissions in the past one year
+          {/* Streak Calendar */}
+          <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
+            <div className="flex flex-col sm:flex-row justify-between items-center text-sm mb-3 h-auto sm:h-[50px] gap-2">
+              <span className="text-white font-medium h-[32px] flex items-center bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 hover:bg-white/20 transition">
+                {progressOverview?.solvedProblems || 0} submissions in the past one year
               </span>
-              <div
-                className="text-white/70 h-[29px] flex items-center bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-3 hover:bg-white/20 transition"
-              >
-                Total active days: {activeDays} • Max streak: {maxStreak}
+              <div className="text-white/70 h-[29px] flex items-center bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-3 hover:bg-white/20 transition">
+                Total active days: {Object.keys(streakData).length} • Max streak: {progressOverview?.currentStreak || 0}
               </div>
             </div>
-
-            {/* Streak Calendar */}
-            <StreakCalendar
-              streakData={streakData}
-              startDate={new Date(2025, 5, 20)}
-              endDate={new Date(2026, 5, 20)}
-              scale={0.55}
-            />
+            <div className="overflow-x-auto">
+              <StreakCalendar
+                streakData={streakData}
+                scale={0.55}
+              />
+            </div>
           </div>
 
           {/* Recent Activity */}
-          <div className="bg-[#1a1a1a] rounded-xl p-4 border border-[#333]">
+          <div className="bg-white/5 rounded-2xl p-4 border border-white/10">
             <div className="text-white text-sm font-medium mb-3">
               Recent Submissions
             </div>
             <ul className="text-sm text-white/80 space-y-2">
-              <li className="flex justify-between">
-                Reverse Integer <span className="text-white/40">14 days ago</span>
-              </li>
-              <li className="flex justify-between">
-                Palindrome Number <span className="text-white/40">14 days ago</span>
-              </li>
-              <li className="flex justify-between">
-                Contains Duplicate <span className="text-white/40">3 months ago</span>
-              </li>
-              <li className="flex justify-between">
-                Concatenation of Array <span className="text-white/40">3 months ago</span>
-              </li>
-              <li className="flex justify-between">
-                Two Sum <span className="text-white/40">3 months ago</span>
-              </li>
+              {recentProblems.map((p, i) => (
+                <li key={i} className="flex flex-col sm:flex-row justify-between gap-2">
+                  <span className="truncate max-w-[180px] sm:max-w-[320px]">{p.problemId?.name || 'Unknown'}</span>
+                  <span className="text-white/40">{p.solvedAt ? new Date(p.solvedAt).toLocaleDateString() : ''}</span>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

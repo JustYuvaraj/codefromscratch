@@ -108,3 +108,44 @@
   animation-delay: calc(var(--delay) * 0.1s);
   animation-fill-mode: both;
 }
+
+@keyframes blink-green {
+  0%, 100% { fill: #22c55e; opacity: 1; }
+  50% { fill: #166534; opacity: 0.5; }
+}
+@keyframes blink-yellow {
+  0%, 100% { fill: #eab308; opacity: 1; }
+  50% { fill: #a16207; opacity: 0.5; }
+}
+@keyframes blink-blue {
+  0%, 100% { fill: #2563eb; opacity: 1; }
+  50% { fill: #1e3a8a; opacity: 0.5; }
+}
+@keyframes blink-red {
+  0%, 100% { fill: #ef4444; opacity: 1; }
+  50% { fill: #991b1b; opacity: 0.5; }
+}
+
+.animate-blink-green { animation: blink-green 3s infinite; }
+.animate-blink-yellow { animation: blink-yellow 3s infinite; }
+.animate-blink-blue { animation: blink-blue 3s infinite; }
+.animate-blink-red { animation: blink-red 3s infinite; }
+
+.blink-delay-0 { animation-delay: 0s !important; }
+.blink-delay-1 { animation-delay: 1.2s !important; }
+.blink-delay-2 { animation-delay: 2.4s !important; }
+.blink-delay-3 { animation-delay: 3.6s !important; }
+
+/* Highlight the current token in execution */
+.highlight-token {
+  background-color: rgba(255, 255, 0, 0.3);
+}
+
+/* Optional button styling */
+.btn {
+  background-color: #1f2937;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  margin-right: 8px;
+}

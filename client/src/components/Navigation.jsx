@@ -2,7 +2,7 @@
 // Your existing Navigation component, now adapted for isAuthenticated and onLogout props.
 
 import React, { useState, useRef, useEffect } from "react";
-import { FaBookOpen, FaHome, FaTools, FaCog, FaTrophy, FaUser, FaSignOutAlt, FaTachometerAlt, FaGithub, FaGoogle } from "react-icons/fa";
+import { FaBookOpen, FaHome, FaTools, FaCog, FaTrophy, FaUser, FaSignOutAlt, FaTachometerAlt, FaGithub, FaGoogle, FaBrain } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const navItems = [
@@ -127,6 +127,10 @@ export default function Navigation({ isAuthenticated, user, onLogout }) {
             <Link to="/leaderboard" className="text-white/70 hover:text-white transition-colors">Leaderboard</Link>
             <Link to="/roadmaps" className="text-white/70 hover:text-white transition-colors">Roadmaps</Link>
             <Link to="/tools" className="text-white/70 hover:text-white transition-colors">Tools</Link>
+            <Link to="/maria-visualizer" className="text-white/70 hover:text-white transition-colors flex items-center gap-2">
+              <FaBrain className="w-4 h-4" />
+              Maria Visualizer
+            </Link>
           </div>
         </div>
 
@@ -198,6 +202,15 @@ export default function Navigation({ isAuthenticated, user, onLogout }) {
                     >
                       <FaCog className="w-4 h-4" />
                       <span>Settings</span>
+                    </Link>
+                    
+                    <Link
+                      to="/maria-visualizer"
+                      onClick={() => setIsProfileDropdownOpen(false)}
+                      className="flex items-center gap-3 w-full p-3 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300"
+                    >
+                      <FaBrain className="w-4 h-4" />
+                      <span>Maria Visualizer</span>
                     </Link>
                   </div>
 

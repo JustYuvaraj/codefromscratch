@@ -9,6 +9,7 @@ import LearningPath from '../components/LearningPath';
 import FocusRow from '../components/features/FocusRow';
 import FlowCanvas from '../components/features/FlowCanvas';
 import CodeVisualizer from '../components/features/CodeVisualizer';
+import HomePageSkeleton from './HomePageSkeleton';
 
 const Feature = ({ icon, title, text }) => (
   <div className="flex items-start space-x-4">
@@ -42,37 +43,48 @@ const childVariants = {
 
 // Authenticated HomePage Component
 function AuthenticatedHomePage({ user }) {
-  const [recentProblems, setRecentProblems] = useState([
-    { id: 1, title: "Two Sum", difficulty: "Easy", status: "solved", category: "Array", timeAgo: "2 hours ago" },
-    { id: 2, title: "Add Two Numbers", difficulty: "Medium", status: "attempted", category: "Linked List", timeAgo: "1 day ago" },
-    { id: 3, title: "Longest Substring Without Repeating Characters", difficulty: "Medium", status: "todo", category: "String", timeAgo: "3 days ago" },
-    { id: 4, title: "Median of Two Sorted Arrays", difficulty: "Hard", status: "todo", category: "Array", timeAgo: "1 week ago" },
-  ]);
+  const [recentProblems, setRecentProblems] = useState([]);
+  const [userStats, setUserStats] = useState(null);
+  const [learningRecommendations, setLearningRecommendations] = useState([]);
+  const [dailyChallenge, setDailyChallenge] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const [userStats, setUserStats] = useState({
-    problemsSolved: 45,
-    streak: 7,
-    rank: 1250,
-    accuracy: 78.5,
-    totalProblems: 2000,
-    weeklyGoal: 5,
-    weeklyProgress: 3
-  });
+  useEffect(() => {
+    // Simulate async fetch
+    setTimeout(() => {
+      setRecentProblems([
+        { id: 1, title: "Two Sum", difficulty: "Easy", status: "solved", category: "Array", timeAgo: "2 hours ago" },
+        { id: 2, title: "Add Two Numbers", difficulty: "Medium", status: "attempted", category: "Linked List", timeAgo: "1 day ago" },
+        { id: 3, title: "Longest Substring Without Repeating Characters", difficulty: "Medium", status: "todo", category: "String", timeAgo: "3 days ago" },
+        { id: 4, title: "Median of Two Sorted Arrays", difficulty: "Hard", status: "todo", category: "Array", timeAgo: "1 week ago" },
+      ]);
+      setUserStats({
+        problemsSolved: 45,
+        streak: 7,
+        rank: 1250,
+        accuracy: 78.5,
+        totalProblems: 2000,
+        weeklyGoal: 5,
+        weeklyProgress: 3
+      });
+      setLearningRecommendations([
+        { id: 1, title: "Master Binary Trees", description: "Based on your recent array problems", difficulty: "Medium", progress: 60, category: "Data Structures" },
+        { id: 2, title: "Dynamic Programming Basics", description: "Perfect next step for your skill level", difficulty: "Medium", progress: 0, category: "Algorithms" },
+        { id: 3, title: "System Design Fundamentals", description: "Expand your full-stack knowledge", difficulty: "Hard", progress: 0, category: "System Design" }
+      ]);
+      setDailyChallenge({
+        title: "Valid Parentheses",
+        difficulty: "Easy",
+        category: "Stack",
+        description: "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.",
+        points: 10,
+        timeLimit: "30 minutes"
+      });
+      setLoading(false);
+    }, 1000);
+  }, []);
 
-  const [learningRecommendations] = useState([
-    { id: 1, title: "Master Binary Trees", description: "Based on your recent array problems", difficulty: "Medium", progress: 60, category: "Data Structures" },
-    { id: 2, title: "Dynamic Programming Basics", description: "Perfect next step for your skill level", difficulty: "Medium", progress: 0, category: "Algorithms" },
-    { id: 3, title: "System Design Fundamentals", description: "Expand your full-stack knowledge", difficulty: "Hard", progress: 0, category: "System Design" }
-  ]);
-
-  const [dailyChallenge] = useState({
-    title: "Valid Parentheses",
-    difficulty: "Easy",
-    category: "Stack",
-    description: "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.",
-    points: 10,
-    timeLimit: "30 minutes"
-  });
+  if (loading) return <HomePageSkeleton />;
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -98,279 +110,95 @@ function AuthenticatedHomePage({ user }) {
     return 'text-blue-400';
   };
 
+  const [focusBgToggled, setFocusBgToggled] = useState(false);
+
   return (
-    <div className="space-y-8 py-8">
-      {/* Welcome Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] 
-          rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-8"
-      >
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-white mb-4">
-            Welcome back, <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-              {user?.name || user?.username || 'Coder'}!
-            </span>
-          </h1>
-          <p className="text-white/70 text-lg mb-6">
-            Ready to crush today's coding challenges? Let's keep that momentum going! 🚀
-          </p>
-          
-          {/* Quick Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
-            <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-              <div className="flex items-center gap-2 mb-2">
-                <Trophy className="w-5 h-5 text-yellow-400" />
-                <span className="text-white/70 text-sm">Solved</span>
-              </div>
-              <p className="text-2xl font-bold text-white">{userStats.problemsSolved}</p>
-              <p className="text-xs text-white/50">of {userStats.totalProblems}</p>
+    <div className="min-h-screen bg-[#0f0f0f] text-white px-4 sm:px-8 py-8 flex flex-col gap-8">
+      {/* User Stats & Recommendations */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+        <div className="bg-white/5 rounded-2xl shadow-lg border border-white/10 p-6 flex flex-col gap-4">
+          <h2 className="text-xl sm:text-2xl font-bold mb-2">👋 Welcome, {user?.name || user?.username || 'User'}!</h2>
+          <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col items-center">
+              <span className="text-3xl font-bold text-cyan-400">{userStats?.problemsSolved ?? '-'}</span>
+              <span className="text-xs text-gray-400">Solved</span>
             </div>
-            <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-              <div className="flex items-center gap-2 mb-2">
-                <TrendingUp className="w-5 h-5 text-green-400" />
-                <span className="text-white/70 text-sm">Streak</span>
-              </div>
-              <p className="text-2xl font-bold text-white">{userStats.streak} days</p>
-              <p className="text-xs text-white/50">🔥 Keep it up!</p>
+            <div className="flex flex-col items-center">
+              <span className="text-3xl font-bold text-green-400">{userStats?.streak ?? '-'}</span>
+              <span className="text-xs text-gray-400">Streak</span>
             </div>
-            <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-              <div className="flex items-center gap-2 mb-2">
-                <Star className="w-5 h-5 text-blue-400" />
-                <span className="text-white/70 text-sm">Rank</span>
-              </div>
-              <p className="text-2xl font-bold text-white">#{userStats.rank}</p>
-              <p className="text-xs text-white/50">Top 6.25%</p>
+            <div className="flex flex-col items-center">
+              <span className="text-3xl font-bold text-yellow-400">{userStats?.rank ?? '-'}</span>
+              <span className="text-xs text-gray-400">Rank</span>
             </div>
-            <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-              <div className="flex items-center gap-2 mb-2">
-                <Target className="w-5 h-5 text-purple-400" />
-                <span className="text-white/70 text-sm">Accuracy</span>
-              </div>
-              <p className="text-2xl font-bold text-white">{userStats.accuracy}%</p>
-              <p className="text-xs text-white/50">Excellent!</p>
-            </div>
-          </div>
-
-          {/* Weekly Progress */}
-          <div className="mt-6 max-w-md mx-auto">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-white/70 text-sm">Weekly Goal: {userStats.weeklyProgress}/{userStats.weeklyGoal} problems</span>
-              <span className="text-white/70 text-sm">{Math.round((userStats.weeklyProgress / userStats.weeklyGoal) * 100)}%</span>
-            </div>
-            <div className="w-full bg-white/10 rounded-full h-2">
-              <div 
-                className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-500"
-                style={{ width: `${(userStats.weeklyProgress / userStats.weeklyGoal) * 100}%` }}
-              ></div>
+            <div className="flex flex-col items-center">
+              <span className="text-3xl font-bold text-pink-400">{userStats?.accuracy ?? '-'}%</span>
+              <span className="text-xs text-gray-400">Accuracy</span>
             </div>
           </div>
         </div>
-      </motion.div>
-
-      {/* Daily Challenge Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] 
-          rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-8"
-      >
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="text-2xl font-bold text-white">🎯 Daily Challenge</h2>
-            <p className="text-white/60 text-sm">Complete today's challenge to earn bonus points!</p>
-          </div>
-          <div className="text-right">
-            <div className="text-2xl font-bold text-yellow-400">{dailyChallenge.points} pts</div>
-            <div className="text-white/60 text-sm">{dailyChallenge.timeLimit}</div>
-          </div>
-        </div>
-        
-        <div className="bg-white/5 rounded-xl p-6 border border-white/10">
-          <div className="flex items-center gap-3 mb-4">
-            <span className={`px-3 py-1 rounded-full text-xs font-medium ${getDifficultyColor(dailyChallenge.difficulty)} bg-white/10`}>
-              {dailyChallenge.difficulty}
-            </span>
-            <span className="text-white/60 text-sm">{dailyChallenge.category}</span>
-          </div>
-          <h3 className="text-xl font-bold text-white mb-3">{dailyChallenge.title}</h3>
-          <p className="text-white/70 mb-4">{dailyChallenge.description}</p>
-          <button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg transition-all duration-300 font-semibold">
-            Start Challenge
-          </button>
-        </div>
-      </motion.div>
-
-      {/* Learning Recommendations */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] 
-          rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-8"
-      >
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-white">📚 Recommended for You</h2>
-          <Link
-            to="/roadmaps"
-            className="text-blue-400 hover:text-blue-300 transition-colors"
-          >
-            View All →
-          </Link>
-        </div>
-        
-        <div className="grid md:grid-cols-3 gap-6">
-          {learningRecommendations.map((rec) => (
-            <div key={rec.id} className="bg-white/5 rounded-xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
-              <div className="flex items-center justify-between mb-3">
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(rec.difficulty)} bg-white/10`}>
-                  {rec.difficulty}
-                </span>
-                <span className="text-white/60 text-xs">{rec.category}</span>
-              </div>
-              <h3 className="text-lg font-bold text-white mb-2">{rec.title}</h3>
-              <p className="text-white/70 text-sm mb-4">{rec.description}</p>
-              {rec.progress > 0 && (
-                <div className="mb-4">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-white/60 text-xs">Progress</span>
-                    <span className={`text-xs font-medium ${getProgressColor(rec.progress)}`}>{rec.progress}%</span>
+        <div className="bg-white/5 rounded-2xl shadow-lg border border-white/10 p-6 flex flex-col gap-4">
+          <h2 className="text-xl sm:text-2xl font-bold mb-2">🎯 Learning Recommendations</h2>
+          <div className="flex flex-col gap-3">
+            {learningRecommendations.map((rec) => (
+              <div key={rec.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+                <span className="font-semibold text-cyan-400">{rec.title}</span>
+                <span className="text-xs px-2 py-1 rounded bg-cyan-700/20 text-cyan-300">{rec.category}</span>
+                <span className="text-xs px-2 py-1 rounded bg-yellow-700/20 text-yellow-300">{rec.difficulty}</span>
+                <span className="text-xs text-gray-400">{rec.description}</span>
+                {rec.progress > 0 && (
+                  <div className="w-full sm:w-32 bg-gray-700 rounded-full h-2 mt-1">
+                    <div className="bg-gradient-to-r from-cyan-400 to-blue-500 h-2 rounded-full" style={{ width: `${rec.progress}%` }}></div>
                   </div>
-                  <div className="w-full bg-white/10 rounded-full h-1">
-                    <div 
-                      className="bg-gradient-to-r from-blue-500 to-purple-500 h-1 rounded-full"
-                      style={{ width: `${rec.progress}%` }}
-                    ></div>
-                  </div>
-                </div>
-              )}
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium">
-                {rec.progress > 0 ? 'Continue' : 'Start Learning'}
-              </button>
-            </div>
-          ))}
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Recent Problems Section */}
+      {/* Daily Challenge */}
+      <div className="bg-white/5 rounded-2xl shadow-lg border border-white/10 p-6 flex flex-col gap-3 max-w-2xl mx-auto">
+        <h2 className="text-xl sm:text-2xl font-bold mb-2">🔥 Daily Challenge</h2>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+          <span className="font-semibold text-green-400">{dailyChallenge?.title}</span>
+          <span className="text-xs px-2 py-1 rounded bg-green-700/20 text-green-300">{dailyChallenge?.category}</span>
+          <span className="text-xs px-2 py-1 rounded bg-yellow-700/20 text-yellow-300">{dailyChallenge?.difficulty}</span>
+          <span className="text-xs text-gray-400">{dailyChallenge?.description}</span>
+        </div>
+        <div className="flex flex-wrap gap-4 mt-2">
+          <span className="text-xs text-cyan-400">Points: {dailyChallenge?.points}</span>
+          <span className="text-xs text-pink-400">Time Limit: {dailyChallenge?.timeLimit}</span>
+        </div>
+      </div>
+
+      {/* Recent Activity */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] 
-          rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-8"
+        className="bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-6"
       >
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-white">📝 Recent Activity</h2>
+        <div className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-2">
+          <h2 className="text-2xl font-bold text-white text-center sm:text-left">📝 Recent Activity</h2>
           <Link
             to="/dashboard"
-            className="text-blue-400 hover:text-blue-300 transition-colors"
+            className="text-blue-400 hover:text-blue-300 transition-colors text-sm"
           >
             View All →
           </Link>
         </div>
-        
         <div className="grid gap-4">
           {recentProblems.map((problem) => (
-            <div key={problem.id} className="bg-white/5 rounded-xl p-4 border border-white/10 hover:bg-white/10 transition-all duration-300">
-              <div className="flex items-center justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-white font-semibold">{problem.title}</h3>
-                    <span className="text-white/40 text-xs">{problem.timeAgo}</span>
-                  </div>
-                  <div className="flex items-center gap-4 text-sm">
-                    <span className={`${getDifficultyColor(problem.difficulty)}`}>
-                      {problem.difficulty}
-                    </span>
-                    <span className="text-white/60">{problem.category}</span>
-                    <span className={`${getStatusColor(problem.status)}`}>
-                      {problem.status.charAt(0).toUpperCase() + problem.status.slice(1)}
-                    </span>
-                  </div>
-                </div>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
-                  {problem.status === 'solved' ? 'Review' : 'Practice'}
-                </button>
-              </div>
+            <div key={problem.id} className="bg-white/5 rounded-xl p-4 border border-white/10 hover:bg-white/10 transition-all duration-300 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+              <span className={`font-semibold ${getStatusColor(problem.status)}`}>{problem.title}</span>
+              <span className="text-xs px-2 py-1 rounded bg-cyan-700/20 text-cyan-300">{problem.category}</span>
+              <span className="text-xs px-2 py-1 rounded bg-yellow-700/20 text-yellow-300">{problem.difficulty}</span>
+              <span className="text-xs text-gray-400">{problem.timeAgo}</span>
+              <span className={`text-xs font-semibold ${getStatusColor(problem.status)}`}>{problem.status}</span>
             </div>
           ))}
         </div>
-      </motion.div>
-
-      {/* Quick Actions */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="grid md:grid-cols-3 gap-6"
-      >
-        <div className="bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] 
-          rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <FaBook className="w-6 h-6 text-blue-400" />
-            <h3 className="text-xl font-bold text-white">Learning Paths</h3>
-          </div>
-          <p className="text-white/70 mb-4">
-            Follow structured roadmaps designed by industry experts to master specific domains.
-          </p>
-          <Link
-            to="/roadmaps"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors inline-block"
-          >
-            Explore Roadmaps
-          </Link>
-        </div>
-
-        <div className="bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] 
-          rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <FaCodeIcon className="w-6 h-6 text-purple-400" />
-            <h3 className="text-xl font-bold text-white">Coding Tools</h3>
-          </div>
-          <p className="text-white/70 mb-4">
-            Access powerful tools including visualizers, debuggers, and practice environments.
-          </p>
-          <Link
-            to="/tools"
-            className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg transition-colors inline-block"
-          >
-            Open Tools
-          </Link>
-        </div>
-
-        <div className="bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] 
-          rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <SiLeetcode className="w-6 h-6 text-orange-400" />
-            <h3 className="text-xl font-bold text-white">Structured Learning</h3>
-          </div>
-          <p className="text-white/70 mb-4">
-            Master coding problems and theoretical concepts in a structured, progressive way.
-          </p>
-          <Link
-            to="/tools"
-            className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg transition-colors inline-block"
-          >
-            Start Learning Path
-          </Link>
-        </div>
-      </motion.div>
-
-      {/* Focus Areas Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-        className="bg-gradient-to-br from-[#0f0f0f] to-[#1a1a1a] py-12"
-      >
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-white mb-2">🎯 Choose Your Focus Area</h2>
-          <p className="text-white/70">Select a topic to explore interactive learning paths and visualizations</p>
-        </div>
-        <FocusRow />
       </motion.div>
     </div>
   );
@@ -556,15 +384,39 @@ function UnauthenticatedHomePage() {
 
   return (
     <div className="space-y-12 py-12">
-      <div className="bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] 
-        rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-8">
+      <div className="mx-auto w-fit">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-white mb-2">🎯 Choose Your Focus Area</h2>
           <p className="text-white/70">Select a topic to explore interactive learning paths and visualizations</p>
+          <div className="flex justify-center items-center gap-6 mt-8 mb-8">
+            <div className="flex items-center gap-2">
+              <svg width="12" height="12" viewBox="0 0 12 12">
+                <circle cx="6" cy="6" r="5" className="animate-blink-green blink-delay-0" />
+              </svg>
+              <span className="text-sm text-white">Learn</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg width="12" height="12" viewBox="0 0 12 12">
+                <circle cx="6" cy="6" r="5" className="animate-blink-yellow blink-delay-1" />
+              </svg>
+              <span className="text-sm text-white">Code</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg width="12" height="12" viewBox="0 0 12 12">
+                <circle cx="6" cy="6" r="5" className="animate-blink-blue blink-delay-2" />
+              </svg>
+              <span className="text-sm text-white">Visualize</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg width="12" height="12" viewBox="0 0 12 12">
+                <circle cx="6" cy="6" r="5" className="animate-blink-red blink-delay-3" />
+              </svg>
+              <span className="text-sm text-white">Build</span>
+            </div>
+          </div>
         </div>
         <FocusRow onSelect={handleTopicSelect} selectedTopic={selectedTopic} />
       </div>
-
       <div ref={canvasRef}>
         <FlowCanvas selected={selectedTopic} />
       </div>

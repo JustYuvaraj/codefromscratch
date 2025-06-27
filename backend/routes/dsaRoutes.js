@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs').promises;
 const path = require('path');
+const Problem = require('../models/Problem');
 
 // Get the complete 200-day DSA study plan
 router.get('/plan', async (req, res) => {
@@ -169,6 +170,43 @@ router.get('/metadata', async (req, res) => {
         res.status(500).json({
             success: false,
             message: 'Failed to load metadata'
+        });
+    }
+});
+
+// Fetch all problems dynamically with filters
+router.get('/problems', async (req, res) => {
+    try {
+        const { day, week, topic, difficulty, company, search, page = 1, limit = 50 } = req.query;
+        let query = {};
+        if (day) query.dayNumber = Number(day);
+        if (week) query.weekNumber = Number(week);
+        if (topic) query.topic = topic;
+        if (difficulty) query.difficulty = new RegExp(`^${difficulty}$`, 'i');
+        if (company) query.companies = { $in: [company] };
+        if (search) query.name = { $regex: search, $options: 'i' };
+
+        const problems = await Problem.find(query)
+            .sort({ dayNumber: 1, weekNumber: 1, leetcodeNumber: 1 })
+            .skip((page - 1) * limit)
+            .limit(Number(limit));
+        const total = await Problem.countDocuments(query);
+
+        res.json({
+            success: true,
+            data: problems,
+            pagination: {
+                page: Number(page),
+                limit: Number(limit),
+                total,
+                hasNext: page * limit < total
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching problems:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch problems'
         });
     }
 });

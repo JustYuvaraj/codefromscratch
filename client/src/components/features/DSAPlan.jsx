@@ -1,35 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { SiLeetcode } from 'react-icons/si';
-import { FaCheckCircle, FaPlay, FaPause, FaForward, FaBackward, FaBullseye } from 'react-icons/fa';
-import { MdTrendingUp, MdCalendarToday } from 'react-icons/md';
+import { FaCheckCircle, FaForward, FaBackward, FaBullseye } from 'react-icons/fa';
+import { MdTrendingUp } from 'react-icons/md';
+import DSAPlanSkeleton from './DSAPlanSkeleton';
 
 const DSAPlan = () => {
-  const [planData, setPlanData] = useState(null);
+  const [problems, setProblems] = useState([]);
   const [currentDay, setCurrentDay] = useState(1);
   const [solvedProblems, setSolvedProblems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filter, setFilter] = useState('all'); // all, easy, medium, hard
-  const [companyFilter, setCompanyFilter] = useState('all');
+
+  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   useEffect(() => {
-    fetchPlanData();
+    fetchProblems(currentDay);
     loadProgress();
-  }, []);
+    // eslint-disable-next-line
+  }, [currentDay]);
 
-  const fetchPlanData = async () => {
+  const fetchProblems = async (day) => {
+    setLoading(true);
+    setError(null);
     try {
-      const response = await fetch('http://localhost:5000/api/dsa/plan');
+      const response = await fetch(`${API_BASE_URL}/api/dsa/problems?day=${day}`);
       const data = await response.json();
-      
       if (data.success) {
-        setPlanData(data.data);
+        setProblems(data.data);
       } else {
-        setError('Failed to load DSA plan');
+        setError('Failed to load problems');
       }
     } catch (err) {
-      setError('Error loading DSA plan');
+      setError('Error loading problems');
       console.error('Error:', err);
     } finally {
       setLoading(false);
@@ -55,50 +57,32 @@ const DSAPlan = () => {
     saveProgress(newSolved);
   };
 
-  const getCurrentDayData = () => {
-    if (!planData) return null;
-    return planData.plan.days.find(day => day.day === currentDay);
-  };
-
   const getProgressStats = () => {
-    if (!planData) return { total: 0, solved: 0, percentage: 0 };
-    
-    const total = planData.plan.totalProblems;
-    const solved = solvedProblems.length;
-    const percentage = Math.round((solved / total) * 100);
-    
+    const total = problems.length;
+    const solved = problems.filter(p => solvedProblems.includes(p._id || p.leetcodeNumber)).length;
+    const percentage = total ? Math.round((solved / total) * 100) : 0;
     return { total, solved, percentage };
   };
 
   const getDifficultyStats = () => {
-    if (!planData) return { easy: 0, medium: 0, hard: 0 };
-    
     const stats = { easy: 0, medium: 0, hard: 0 };
-    planData.plan.days.forEach(day => {
-      day.problems.forEach(problem => {
-        if (solvedProblems.includes(problem.id)) {
-          stats[problem.difficulty.toLowerCase()]++;
-        }
-      });
+    problems.forEach(problem => {
+      if (solvedProblems.includes(problem._id || problem.leetcodeNumber)) {
+        stats[problem.difficulty.toLowerCase()]++;
+      }
     });
-    
     return stats;
   };
 
   const getCompanyStats = () => {
-    if (!planData) return {};
-    
     const stats = {};
-    planData.plan.days.forEach(day => {
-      day.problems.forEach(problem => {
-        if (solvedProblems.includes(problem.id)) {
-          problem.faangCompanies.forEach(company => {
-            stats[company] = (stats[company] || 0) + 1;
-          });
-        }
-      });
+    problems.forEach(problem => {
+      if (solvedProblems.includes(problem._id || problem.leetcodeNumber)) {
+        (problem.companies || []).forEach(company => {
+          stats[company] = (stats[company] || 0) + 1;
+        });
+      }
     });
-    
     return stats;
   };
 
@@ -122,41 +106,28 @@ const DSAPlan = () => {
     return colors[company] || 'text-gray-400 bg-gray-400/10';
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-cyan-400"></div>
-      </div>
-    );
-  }
+  const topic = problems[0]?.topic || `Day ${currentDay}`;
+  const learningObjective = problems[0]?.concept ? `Focus: ${problems[0].concept}` : '';
 
-  if (error) {
-    return (
-      <div className="text-center text-red-400 p-8">
-        <h2 className="text-xl font-bold mb-4">Error Loading DSA Plan</h2>
-        <p>{error}</p>
-      </div>
-    );
-  }
-
-  const currentDayData = getCurrentDayData();
   const progressStats = getProgressStats();
   const difficultyStats = getDifficultyStats();
   const companyStats = getCompanyStats();
 
+  if (loading) return <DSAPlanSkeleton />;
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] px-4 sm:px-6 py-6">
+      <div className="max-w-7xl mx-auto flex flex-col gap-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-4xl font-bold text-white mb-4">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
             200-Day FAANG DSA Mastery Plan
           </h1>
-          <p className="text-gray-300 text-lg">
+          <p className="text-gray-300 text-base sm:text-lg">
             Master 1000 problems to crack FAANG coding interviews
           </p>
         </motion.div>
@@ -166,17 +137,17 @@ const DSAPlan = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8"
         >
-          <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+          <div className="bg-white/5 rounded-2xl p-6 border border-white/10 flex flex-col items-center">
             <div className="flex items-center gap-3 mb-2">
               <MdTrendingUp className="text-cyan-400 text-xl" />
-              <h3 className="text-white font-semibold">Overall Progress</h3>
+              <h3 className="text-white font-semibold text-base sm:text-lg">Day Progress</h3>
             </div>
-            <div className="text-3xl font-bold text-cyan-400 mb-2">
+            <div className="text-2xl sm:text-3xl font-bold text-cyan-400 mb-2">
               {progressStats.percentage}%
             </div>
-            <div className="text-gray-400 text-sm">
+            <div className="text-gray-400 text-xs sm:text-sm">
               {progressStats.solved} / {progressStats.total} problems
             </div>
             <div className="w-full bg-gray-700 rounded-full h-2 mt-3">
@@ -186,195 +157,135 @@ const DSAPlan = () => {
               ></div>
             </div>
           </div>
-
-          <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+          <div className="bg-white/5 rounded-2xl p-6 border border-white/10 flex flex-col items-center">
             <div className="flex items-center gap-3 mb-2">
               <FaBullseye className="text-green-400 text-xl" />
-              <h3 className="text-white font-semibold">Easy</h3>
+              <h3 className="text-white font-semibold text-base sm:text-lg">Easy</h3>
             </div>
-            <div className="text-3xl font-bold text-green-400">
+            <div className="text-2xl sm:text-3xl font-bold text-green-400">
               {difficultyStats.easy}
             </div>
-            <div className="text-gray-400 text-sm">solved</div>
           </div>
-
-          <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+          <div className="bg-white/5 rounded-2xl p-6 border border-white/10 flex flex-col items-center">
             <div className="flex items-center gap-3 mb-2">
               <FaBullseye className="text-yellow-400 text-xl" />
-              <h3 className="text-white font-semibold">Medium</h3>
+              <h3 className="text-white font-semibold text-base sm:text-lg">Medium</h3>
             </div>
-            <div className="text-3xl font-bold text-yellow-400">
+            <div className="text-2xl sm:text-3xl font-bold text-yellow-400">
               {difficultyStats.medium}
             </div>
-            <div className="text-gray-400 text-sm">solved</div>
           </div>
-
-          <div className="bg-white/5 rounded-xl p-6 border border-white/10">
+          <div className="bg-white/5 rounded-2xl p-6 border border-white/10 flex flex-col items-center">
             <div className="flex items-center gap-3 mb-2">
               <FaBullseye className="text-red-400 text-xl" />
-              <h3 className="text-white font-semibold">Hard</h3>
+              <h3 className="text-white font-semibold text-base sm:text-lg">Hard</h3>
             </div>
-            <div className="text-3xl font-bold text-red-400">
+            <div className="text-2xl sm:text-3xl font-bold text-red-400">
               {difficultyStats.hard}
             </div>
-            <div className="text-gray-400 text-sm">solved</div>
           </div>
         </motion.div>
 
         {/* Day Navigation */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+          <button
+            className="px-4 py-2 bg-cyan-700 text-white rounded-lg disabled:opacity-50 w-full sm:w-auto"
+            onClick={() => setCurrentDay((d) => Math.max(1, d - 1))}
+            disabled={currentDay === 1}
+          >
+            <FaBackward className="inline mr-2" /> Prev Day
+          </button>
+          <div className="text-lg font-semibold text-white">
+            Day {currentDay}
+          </div>
+          <button
+            className="px-4 py-2 bg-cyan-700 text-white rounded-lg w-full sm:w-auto"
+            onClick={() => setCurrentDay((d) => d + 1)}
+          >
+            Next Day <FaForward className="inline ml-2" />
+          </button>
+        </div>
+
+        {/* Current Day Problems */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="flex items-center justify-between mb-8 bg-white/5 rounded-xl p-6 border border-white/10"
+          transition={{ delay: 0.4 }}
+          className="bg-white/5 rounded-2xl p-6 border border-white/10 mb-8"
         >
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setCurrentDay(Math.max(1, currentDay - 1))}
-              disabled={currentDay === 1}
-              className="p-2 rounded-lg bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              <FaBackward className="text-white" />
-            </button>
-            
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-white">Day {currentDay}</h2>
-              <p className="text-gray-400">Week {Math.ceil(currentDay / 7)}</p>
-            </div>
-            
-            <button
-              onClick={() => setCurrentDay(Math.min(200, currentDay + 1))}
-              disabled={currentDay === 200}
-              className="p-2 rounded-lg bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              <FaForward className="text-white" />
-            </button>
+          <div className="mb-6">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
+              {topic}
+            </h3>
+            <p className="text-gray-300 text-sm sm:text-base">{learningObjective}</p>
           </div>
 
-          <div className="flex items-center gap-2">
-            <MdCalendarToday className="text-cyan-400" />
-            <span className="text-gray-300">
-              {Math.ceil(currentDay / 7)} / 28 weeks
-            </span>
-          </div>
-        </motion.div>
-
-        {/* Current Day Problems */}
-        {currentDayData && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="bg-white/5 rounded-xl p-6 border border-white/10 mb-8"
-          >
-            <div className="mb-6">
-              <h3 className="text-xl font-bold text-white mb-2">
-                {currentDayData.topic}
-              </h3>
-              <p className="text-gray-300">{currentDayData.learningObjective}</p>
-            </div>
-
-            <div className="grid gap-4">
-              {currentDayData.problems.map((problem) => (
+          {error ? (
+            <div className="text-center text-red-400">{error}</div>
+          ) : (
+            <div className="grid gap-4 sm:gap-6">
+              {problems.map((problem) => (
                 <motion.div
-                  key={problem.id}
+                  key={problem._id || problem.leetcodeNumber}
                   whileHover={{ scale: 1.02 }}
-                  className={`p-4 rounded-lg border transition-all duration-300 ${
-                    solvedProblems.includes(problem.id)
+                  className={`p-4 rounded-xl border transition-all duration-300 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 ${
+                    solvedProblems.includes(problem._id || problem.leetcodeNumber)
                       ? 'bg-green-400/10 border-green-400/30'
                       : 'bg-white/5 border-white/10 hover:border-cyan-400/30'
                   }`}
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <button
-                        onClick={() => toggleProblemSolved(problem.id)}
-                        className="hover:scale-110 transition-transform"
+                  <button
+                    onClick={() => toggleProblemSolved(problem._id || problem.leetcodeNumber)}
+                    className="hover:scale-110 transition-transform mr-2"
+                  >
+                    <FaCheckCircle
+                      className={`text-xl ${
+                        solvedProblems.includes(problem._id || problem.leetcodeNumber)
+                          ? 'text-green-400'
+                          : 'text-gray-500 hover:text-green-400'
+                      }`}
+                    />
+                  </button>
+                  <div className="flex-1 flex flex-col gap-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <a
+                        href={problem.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-white hover:text-cyan-400 transition-colors text-base sm:text-lg"
                       >
-                        <FaCheckCircle
-                          className={`text-xl ${
-                            solvedProblems.includes(problem.id)
-                              ? 'text-green-400'
-                              : 'text-gray-500 hover:text-green-400'
-                          }`}
-                        />
-                      </button>
-                      
-                      <div>
-                        <div className="flex items-center gap-3 mb-1">
-                          <a
-                            href={problem.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-semibold text-white hover:text-cyan-400 transition-colors"
-                          >
-                            {problem.leetcodeNumber}. {problem.name}
-                          </a>
-                          <span className={`px-2 py-1 rounded text-xs font-medium ${getDifficultyColor(problem.difficulty)}`}>
-                            {problem.difficulty}
-                          </span>
-                        </div>
-                        
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="text-sm text-gray-400">
-                            Success Rate: {problem.successRate}%
-                          </span>
-                        </div>
-                        
-                        <p className="text-sm text-gray-300 mb-2">
-                          {problem.concept}
-                        </p>
-                        
-                        <p className="text-xs text-gray-400 mb-2">
-                          <strong>Builds on:</strong> {problem.buildsOn}
-                        </p>
-                        
-                        <div className="flex items-center gap-2">
-                          {problem.faangCompanies.map((company) => (
-                            <span
-                              key={company}
-                              className={`px-2 py-1 rounded text-xs font-medium ${getCompanyColor(company)}`}
-                            >
-                              {company}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
+                        {problem.leetcodeNumber}. {problem.name}
+                      </a>
+                      <span className={`px-2 py-1 rounded text-xs font-medium ${getDifficultyColor(problem.difficulty)}`}>
+                        {problem.difficulty}
+                      </span>
                     </div>
-                    
-                    <a
-                      href={problem.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-yellow-400 hover:text-yellow-300 transition-colors"
-                    >
-                      <SiLeetcode className="text-xl" />
-                    </a>
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <span className="text-xs sm:text-sm text-gray-400">
+                        Success Rate: {problem.successRate}%
+                      </span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-gray-300 mb-1">
+                      {problem.concept}
+                    </p>
+                    <p className="text-xs text-gray-400 mb-1">
+                      <strong>Builds on:</strong> {problem.buildsOn}
+                    </p>
+                    <div className="flex flex-wrap items-center gap-2">
+                      {(problem.companies || []).map((company) => (
+                        <span
+                          key={company}
+                          className={`px-2 py-1 rounded text-xs font-medium ${getCompanyColor(company)}`}
+                        >
+                          {company}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
               ))}
             </div>
-          </motion.div>
-        )}
-
-        {/* Company Progress */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="bg-white/5 rounded-xl p-6 border border-white/10"
-        >
-          <h3 className="text-xl font-bold text-white mb-4">FAANG Company Progress</h3>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {Object.entries(companyStats).map(([company, count]) => (
-              <div key={company} className="text-center">
-                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full mb-2 ${getCompanyColor(company).replace('text-', 'bg-').replace('bg-', 'bg-').replace('/10', '/20')}`}>
-                  <span className="text-white font-bold">{count}</span>
-                </div>
-                <div className="text-sm text-gray-300">{company}</div>
-              </div>
-            ))}
-          </div>
+          )}
         </motion.div>
       </div>
     </div>

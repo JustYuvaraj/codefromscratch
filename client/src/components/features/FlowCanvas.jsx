@@ -1,230 +1,163 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import {
+  FaJs, FaJava, FaPython, FaBookOpen, FaLayerGroup, FaList, FaChartBar, FaSitemap, FaSearch, FaTree, FaProjectDiagram, FaCubes, FaPuzzlePiece, FaRocket
+} from 'react-icons/fa';
 
-const FlowCanvas = ({ selected }) => {
+// Node data for the roadmap (simplified for clarity, can be expanded for full detail)
+const nodes = [
+  // Languages
+  { id: 'js', label: 'JavaScript', icon: <FaJs className="text-yellow-400" />, x: 100, y: 60, color: 'text-yellow-400' },
+  { id: 'java', label: 'Java', icon: <FaJava className="text-blue-400" />, x: 100, y: 160, color: 'text-blue-400' },
+  { id: 'python', label: 'Python', icon: <FaPython className="text-green-400" />, x: 100, y: 260, color: 'text-green-400' },
+  // Programming Fundamentals
+  { id: 'fundamentals', label: 'Programming Fundamentals', icon: <FaBookOpen className="text-purple-400" />, x: 300, y: 160, color: 'text-purple-400' },
+  // Data Structures Intro
+  { id: 'ds_intro', label: 'What are Data Structures?', icon: <FaLayerGroup className="text-blue-400" />, x: 500, y: 60, color: 'text-blue-400' },
+  { id: 'ds_types', label: 'Why Data Structures?', icon: <FaLayerGroup className="text-blue-400" />, x: 500, y: 160, color: 'text-blue-400' },
+  { id: 'ds_basics', label: 'Basic Data Structures', icon: <FaList className="text-blue-400" />, x: 500, y: 260, color: 'text-blue-400' },
+  // Complexity
+  { id: 'complexity', label: 'Algorithm Complexity', icon: <FaChartBar className="text-pink-400" />, x: 700, y: 160, color: 'text-pink-400' },
+  // Sorting/Searching
+  { id: 'sorting', label: 'Sorting Algorithms', icon: <FaSitemap className="text-orange-400" />, x: 900, y: 60, color: 'text-orange-400' },
+  { id: 'searching', label: 'Search Algorithms', icon: <FaSearch className="text-green-400" />, x: 900, y: 160, color: 'text-green-400' },
+  // Trees/Graphs
+  { id: 'trees', label: 'Tree Data Structures', icon: <FaTree className="text-green-400" />, x: 1100, y: 60, color: 'text-green-400' },
+  { id: 'graphs', label: 'Graph Data Structures', icon: <FaProjectDiagram className="text-teal-400" />, x: 1100, y: 160, color: 'text-teal-400' },
+  // Advanced
+  { id: 'advanced', label: 'Advanced Data Structures', icon: <FaCubes className="text-red-400" />, x: 1300, y: 110, color: 'text-red-400' },
+  // Problem Solving
+  { id: 'problem_solving', label: 'Problem Solving Techniques', icon: <FaPuzzlePiece className="text-yellow-400" />, x: 1500, y: 110, color: 'text-yellow-400' },
+  // Platforms
+  { id: 'platforms', label: 'Platforms & Practice', icon: <FaRocket className="text-blue-400" />, x: 1700, y: 110, color: 'text-blue-400' },
+];
+
+// Edges (connections between nodes)
+const edges = [
+  // Languages to Fundamentals
+  { from: 'js', to: 'fundamentals' },
+  { from: 'java', to: 'fundamentals' },
+  { from: 'python', to: 'fundamentals' },
+  // Fundamentals to DS
+  { from: 'fundamentals', to: 'ds_intro' },
+  { from: 'fundamentals', to: 'ds_types' },
+  { from: 'fundamentals', to: 'ds_basics' },
+  // DS to Complexity
+  { from: 'ds_intro', to: 'complexity' },
+  { from: 'ds_types', to: 'complexity' },
+  { from: 'ds_basics', to: 'complexity' },
+  // Complexity to Sorting/Searching
+  { from: 'complexity', to: 'sorting' },
+  { from: 'complexity', to: 'searching' },
+  // Sorting/Searching to Trees/Graphs
+  { from: 'sorting', to: 'trees' },
+  { from: 'searching', to: 'graphs' },
+  // Trees/Graphs to Advanced
+  { from: 'trees', to: 'advanced' },
+  { from: 'graphs', to: 'advanced' },
+  // Advanced to Problem Solving
+  { from: 'advanced', to: 'problem_solving' },
+  // Problem Solving to Platforms
+  { from: 'problem_solving', to: 'platforms' },
+];
+
+const nodeStyle =
+  'rounded-full border px-5 py-2 text-base font-semibold transition-all duration-300 border-white/10 bg-white/5 text-white/80 hover:border-white/20 hover:bg-white/10 hover:text-white flex items-center gap-2 shadow-lg backdrop-blur-sm';
+
+const bgStyle = {
+  backgroundColor: '#101118',
+  backgroundImage:
+    'radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), radial-gradient(rgba(255,255,255,0.08) 1px, #101118 1px)',
+  backgroundSize: '20px 20px',
+  backgroundPosition: '0 0,10px 10px',
+};
+
+function drawDashedLine(ctx, x1, y1, x2, y2, dash = 12, gap = 12, offset = 0, color = '#00f2ff', glow = true) {
+  if (!ctx || typeof x1 !== 'number' || typeof y1 !== 'number' || typeof x2 !== 'number' || typeof y2 !== 'number') {
+    return;
+  }
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 3;
+  ctx.setLineDash([dash, gap]);
+  ctx.lineDashOffset = -offset;
+  if (glow) {
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 12;
+  }
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
+  ctx.restore();
+}
+
+const FlowCanvas = () => {
   const canvasRef = useRef(null);
-  const [nodes, setNodes] = useState([]);
-  const [edges, setEdges] = useState([]);
-  const [lines, setLines] = useState([]);
-  const [animations, setAnimations] = useState([]);
+  const [dashOffset, setDashOffset] = useState(0);
 
-  const data = {
-    'data-structures': {
-      nodes: [
-        { id: 1, x: 100, y: 200, label: 'Arrays' },
-        { id: 2, x: 300, y: 100, label: 'Linked Lists' },
-        { id: 3, x: 300, y: 300, label: 'Hash Tables' },
-        { id: 4, x: 500, y: 100, label: 'Stacks' },
-        { id: 5, x: 500, y: 200, label: 'Queues' },
-        { id: 6, x: 500, y: 300, label: 'Trees' },
-        { id: 7, x: 700, y: 300, label: 'Graphs' },
-      ],
-      edges: [
-        { from: 1, to: 2 },
-        { from: 1, to: 3 },
-        { from: 2, to: 4 },
-        { from: 2, to: 5 },
-        { from: 3, to: 6 },
-        { from: 6, to: 7 },
-      ],
-    },
-    'algorithms': {
-        nodes: [
-            { id: 1, x: 100, y: 200, label: 'Sorting' },
-            { id: 2, x: 300, y: 100, label: 'Searching' },
-            { id: 3, x: 300, y: 300, label: 'Graph Algos' },
-            { id: 4, x: 500, y: 100, label: 'Recursion' },
-            { id: 5, x: 500, y: 300, label: 'Dynamic Prog.' },
-            { id: 6, x: 700, y: 200, label: 'Greedy Algos' },
-          ],
-          edges: [
-            { from: 1, to: 2 },
-            { from: 2, to: 4 },
-            { from: 1, to: 3 },
-            { from: 3, to: 5 },
-            { from: 4, to: 5 },
-            { from: 5, to: 6 },
-          ],
-    },
-    'frontend': {
-        nodes: [
-            { id: 1, x: 100, y: 200, label: 'HTML/CSS' },
-            { id: 2, x: 300, y: 100, label: 'JavaScript' },
-            { id: 3, x: 300, y: 300, label: 'React' },
-            { id: 4, x: 500, y: 200, label: 'Vue.js' },
-            { id: 5, x: 500, y: 400, label: 'Angular' },
-            { id: 6, x: 700, y: 300, label: 'Next.js' },
-          ],
-          edges: [
-            { from: 1, to: 2 },
-            { from: 2, to: 3 },
-            { from: 2, to: 4 },
-            { from: 2, to: 5 },
-            { from: 3, to: 6 },
-          ],
-    },
-    'backend': {
-        nodes: [
-            { id: 1, x: 100, y: 200, label: 'Node.js' },
-            { id: 2, x: 300, y: 100, label: 'Python' },
-            { id: 3, x: 300, y: 300, label: 'Databases' },
-            { id: 4, x: 500, y: 100, label: 'APIs' },
-            { id: 5, x: 500, y: 300, label: 'Authentication' },
-            { id: 6, x: 700, y: 200, label: 'DevOps' },
-          ],
-          edges: [
-            { from: 1, to: 4 },
-            { from: 2, to: 4 },
-            { from: 3, to: 1 },
-            { from: 3, to: 2 },
-            { from: 4, to: 5 },
-            { from: 5, to: 6 },
-          ],
-    },
-    'full-stack': {
-        nodes: [
-            { id: 1, x: 100, y: 200, label: 'Frontend' },
-            { id: 2, x: 300, y: 200, label: 'Backend' },
-            { id: 3, x: 500, y: 100, label: 'Databases' },
-            { id: 4, x: 500, y: 300, label: 'Deployment' },
-            { id: 5, x: 700, y: 200, label: 'APIs' },
-          ],
-          edges: [
-            { from: 1, to: 2 },
-            { from: 2, to: 3 },
-            { from: 2, to: 4 },
-            { from: 2, to: 5 },
-          ],
-    },
-  };
+  // Animate dashed line offset for continuous flow
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDashOffset((prev) => (prev + 3) % 48);
+    }, 30);
+    return () => clearInterval(interval);
+  }, []);
 
-  const draw = useCallback(() => {
+  // Draw edges
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = canvas.offsetWidth * dpr;
-    canvas.height = canvas.offsetHeight * dpr;
-    ctx.scale(dpr, dpr);
-
+    if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Draw edges
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-    ctx.lineWidth = 1;
-    edges.forEach(edge => {
-      const fromNode = nodes.find(n => n.id === edge.from);
-      const toNode = nodes.find(n => n.id === edge.to);
-      if (fromNode && toNode) {
-        ctx.beginPath();
-        ctx.moveTo(fromNode.x, fromNode.y);
-        ctx.lineTo(toNode.x, toNode.y);
-        ctx.stroke();
+    edges.forEach((edge) => {
+      const from = nodes.find((n) => n.id === edge.from);
+      const to = nodes.find((n) => n.id === edge.to);
+      if (from && to) {
+        drawDashedLine(ctx, from.x, from.y, to.x, to.y, 16, 16, dashOffset, '#00f2ff', true);
       }
     });
-
-    // Draw animated lines
-    animations.forEach(anim => {
-        ctx.strokeStyle = `rgba(0, 242, 255, ${anim.opacity})`;
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(anim.startX, anim.startY);
-        ctx.lineTo(anim.endX, anim.endY);
-        ctx.stroke();
-    });
-
-  }, [nodes, edges, animations]);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const resizeObserver = new ResizeObserver(() => draw());
-    if(canvas) {
-      resizeObserver.observe(canvas);
-    }
-    return () => {
-      if(canvas) {
-        resizeObserver.unobserve(canvas);
-      }
-    }
-  }, [draw]);
-
-  useEffect(() => {
-    if (selected && data[selected]) {
-        setNodes(data[selected].nodes);
-        setEdges(data[selected].edges);
-    } else {
-        setNodes([]);
-        setEdges([]);
-    }
-  }, [selected]);
-  
-  useEffect(() => {
-    draw();
-  }, [nodes, edges, lines, draw]);
-
-  useEffect(() => {
-    const newLines = [];
-    const fromNodes = nodes.filter(n => n.x < 300);
-    const toNodes = nodes.filter(n => n.x > 300);
-  
-    fromNodes.forEach(from => {
-      toNodes.forEach(to => {
-        newLines.push({ startX: from.x, startY: from.y, endX: to.x, endY: to.y });
-      });
-    });
-  
-    setLines(newLines);
-  }, [nodes]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-        setAnimations(prev => {
-            const updated = prev.map(a => ({...a, opacity: a.opacity - 0.05})).filter(a => a.opacity > 0);
-            if (lines.length > 0 && Math.random() < 0.2) {
-                const line = lines[Math.floor(Math.random() * lines.length)];
-                updated.push({...line, opacity: 1});
-            }
-            return updated;
-        });
-    }, 100);
-
-    return () => clearInterval(interval);
-  }, [lines]);
+  }, [dashOffset]);
 
   return (
-    <AnimatePresence>
-      {selected && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 500 }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: 0.5, ease: 'easeInOut' }}
-          className="w-full bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] 
-            rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] relative overflow-hidden"
-        >
-          <canvas ref={canvasRef} className="w-full h-full"></canvas>
-          <AnimatePresence>
-          {nodes.map(node => (
+    <div
+      className="relative w-full max-w-4xl mx-auto h-[400px] rounded-3xl overflow-x-auto overflow-y-hidden border border-white/10"
+      style={bgStyle}
+    >
+      <div className="w-[1800px] h-full relative">
+        <canvas
+          ref={canvasRef}
+          width={1800}
+          height={400}
+          className="absolute top-0 left-0 w-full h-full pointer-events-none"
+        />
+        <AnimatePresence>
+          {nodes.map((node, i) => (
             <motion.div
               key={node.id}
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 20, delay: Math.random() * 0.5 }}
-              className="absolute px-4 py-2 rounded-lg bg-white/10 border border-white/20 shadow-lg text-white font-semibold"
+              transition={{ type: 'spring', stiffness: 260, damping: 20, delay: i * 0.05 }}
+              className={
+                nodeStyle +
+                ' absolute shadow-[0_0_20px_#3b82f655] cursor-pointer select-none'
+              }
               style={{
                 left: node.x,
                 top: node.y,
-                transform: 'translate(-50%, -50%)'
+                transform: 'translate(-50%, -50%)',
+                zIndex: 2,
               }}
             >
-              {node.label}
+              <span className={node.color + ' text-xl'}>{node.icon}</span>
+              <span>{node.label}</span>
             </motion.div>
           ))}
-          </AnimatePresence>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        </AnimatePresence>
+      </div>
+    </div>
   );
 };
 

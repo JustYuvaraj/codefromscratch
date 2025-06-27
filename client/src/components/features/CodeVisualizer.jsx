@@ -14,6 +14,9 @@ const CodeVisualizer = () => {
 
   const outputRef = useRef(null);
 
+  // Limit interpreter steps to prevent infinite loops
+  const MAX_STEPS = 10000;
+
   useEffect(() => {
     const loadScripts = async () => {
       try {
@@ -68,16 +71,24 @@ const CodeVisualizer = () => {
   };
 
   const handleStep = () => {
+    let steps = 0;
     if (interpreter) {
       try {
+        function stepLoop() {
+          if (steps++ > MAX_STEPS) {
+            setOutput(prev => [...prev, { type: 'error', text: 'Execution stopped: too many steps (possible infinite loop).' }]);
+            setIsExecuting(false);
+            return;
+          }
         if (interpreter.step()) {
           setScope(interpreter.getScope());
-          // The timeout gives the UI time to update between steps.
-          setTimeout(handleStep, 50); 
+            setTimeout(stepLoop, 50);
         } else {
           setIsExecuting(false);
           setScope(interpreter.getScope());
         }
+        }
+        stepLoop();
       } catch (e) {
         setOutput(prev => [...prev, { type: 'error', text: e.toString() }]);
         setIsExecuting(false);
@@ -86,13 +97,16 @@ const CodeVisualizer = () => {
   };
   
   const runFullSpeed = () => {
+    let steps = 0;
       if (interpreter) {
         try {
-            if (interpreter.run()) {
+        while (interpreter.step()) {
+          if (steps++ > MAX_STEPS) {
+            setOutput(prev => [...prev, { type: 'error', text: 'Execution stopped: too many steps (possible infinite loop).' }]);
+            break;
+          }
+        }
                 setScope(interpreter.getScope());
-            } else {
-                 // Should not happen.
-            }
         } catch(e) {
             setOutput(prev => [...prev, { type: 'error', text: e.toString() }]);
         } finally {
@@ -152,62 +166,62 @@ const CodeVisualizer = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5 }}
       className="bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] 
-        rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-6 my-8"
+        rounded-3xl border border-[#2c2c3a] shadow-[0_0_40px_#00f2ff22] p-4 my-4 max-w-2xl mx-auto max-h-[28rem] overflow-auto"
     >
-      <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+      <h2 className="text-2xl font-bold text-white mb-3 flex items-center gap-3">
         <FaCode />
         Interactive Code Visualizer
       </h2>
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-3">
         {/* Code Editor */}
         <div className="w-full md:w-1/2">
           <textarea
             value={code}
             onChange={(e) => setCode(e.target.value)}
-            className="w-full h-96 p-4 bg-[#010101] border border-gray-700 rounded-lg text-white font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full h-48 p-3 bg-[#010101] border border-gray-700 rounded-lg text-white font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter JavaScript code here"
             disabled={isExecuting}
+            rows={20}
+            style={{ minHeight: '12rem', maxHeight: '12rem', height: '12rem' }}
           />
         </div>
 
         {/* Visualizer and Output */}
-        <div className="w-full md:w-1/2 flex flex-col gap-4">
+        <div className="w-full md:w-1/2 flex flex-col gap-3">
           {/* Controls */}
-          <div className="flex items-center gap-4 bg-white/5 p-3 rounded-lg border border-white/10">
+          <div className="flex items-center gap-3 bg-white/5 p-2 rounded-lg border border-white/10">
             <button
               onClick={handleRun}
               disabled={isExecuting || !scriptsLoaded}
-              className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-md text-white font-semibold transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-3 py-1.5 bg-green-600 hover:bg-green-700 rounded-md text-white font-semibold transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed text-sm"
             >
               <FaPlay /> Run
             </button>
             <button
               onClick={handleStep}
               disabled={!isExecuting || !interpreter}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md text-white font-semibold transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 rounded-md text-white font-semibold transition-colors disabled:bg-gray-500 disabled:cursor-not-allowed text-sm"
             >
               <FaStepForward /> Step
             </button>
             <button
               onClick={handleReset}
-              className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-md text-white font-semibold transition-colors"
+              className="flex items-center gap-2 px-3 py-1.5 bg-red-600 hover:bg-red-700 rounded-md text-white font-semibold transition-colors text-sm"
             >
               <FaUndo /> Reset
             </button>
-            {!scriptsLoaded && <span className="text-yellow-400 text-sm">Loading Interpreter...</span>}
+            {!scriptsLoaded && <span className="text-yellow-400 text-xs">Loading Interpreter...</span>}
           </div>
-          
           {/* Scope Display */}
-          <div className="bg-[#010101] border border-gray-700 rounded-lg p-4 flex-grow h-48 overflow-y-auto">
-            <h3 className="text-lg font-semibold text-white mb-2 flex items-center gap-2"><FaBars /> Scope</h3>
+          <div className="bg-[#010101] border border-gray-700 rounded-lg p-2 flex-grow h-24 overflow-y-auto min-h-[4rem] max-h-[6rem]">
+            <h3 className="text-lg font-semibold text-white mb-1 flex items-center gap-2"><FaBars /> Scope</h3>
             <div className="divide-y divide-gray-700">
               {renderScope(scope)}
             </div>
           </div>
-
           {/* Console Output */}
-          <div className="bg-[#010101] border border-gray-700 rounded-lg p-4 flex-grow h-48 overflow-y-auto" ref={outputRef}>
-            <h3 className="text-lg font-semibold text-white mb-2 flex items-center gap-2"><FaTerminal /> Console</h3>
+          <div className="bg-[#010101] border border-gray-700 rounded-lg p-2 flex-grow h-24 overflow-y-auto min-h-[4rem] max-h-[6rem]" ref={outputRef}>
+            <h3 className="text-lg font-semibold text-white mb-1 flex items-center gap-2"><FaTerminal /> Console</h3>
             {output.map((line, index) => (
               <div key={index} className={`font-mono text-sm ${line.type === 'error' ? 'text-red-500' : 'text-gray-300'}`}>
                 {'> '} {line.text}

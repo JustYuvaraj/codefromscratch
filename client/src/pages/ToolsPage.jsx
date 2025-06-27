@@ -7,8 +7,8 @@ import { SiLeetcode } from "react-icons/si";
 import { FaCode, FaDatabase, FaServer, FaNetworkWired, FaDesktop, FaBook, FaChartBar, FaPlay, FaSitemap, FaEye } from "react-icons/fa";
 import LeetcodeProblems from '../components/features/LeetCodeProblems';
 import RecursionFoundation from '../components/features/RecursionFoundation';
-import CodeVisualizer from '../components/features/CodeVisualizer';
 import LearningPath from '../components/LearningPath';
+import VisualDebugger from '../components/features/VisualDebugger';
 
 export default function ToolsPage({ user }) {
   const [activeTool, setActiveTool] = useState('learning-path');
@@ -81,7 +81,7 @@ export default function ToolsPage({ user }) {
       case 'recursion-foundation':
         return <RecursionFoundation />;
       case 'code-visualizer':
-        return <CodeVisualizer />;
+        return <VisualDebugger />;
       default:
         return (
           <div className="flex flex-col items-center justify-center text-center p-12">

@@ -35,6 +35,8 @@ app.use('/uploads', express.static('uploads'));
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/dsa", require("./routes/dsaRoutes"));
+app.use("/api/progress", require("./routes/progressRoutes"));
+app.use("/api/topics", require("./routes/topicRoutes"));
 
 // MongoDB + Start Server
 mongoose
