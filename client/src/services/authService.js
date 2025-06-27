@@ -3,7 +3,7 @@
 // You'll need to implement the actual logic for local signup/login here
 // if you plan to use email/password authentication alongside OAuth.
 
-const API_BASE_URL = '/api'; // Your backend API base URL
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'; // Your backend API base URL
 
 // Function for local user registration
 export const register = async (userData) => {

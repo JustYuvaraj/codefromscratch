@@ -58,7 +58,7 @@ export default function SettingsPage({ user, onUserUpdate }) {
               <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-lg shadow-lg overflow-hidden">
                 {user.profileImage ? (
                   <img 
-                    src={user.profileImage.startsWith('/uploads/') ? `http://localhost:5000${user.profileImage}` : user.profileImage} 
+                    src={user.profileImage.startsWith('/uploads/') ? `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${user.profileImage}` : user.profileImage} 
                     alt="Profile" 
                     className="w-full h-full rounded-full object-cover"
                     onError={(e) => {

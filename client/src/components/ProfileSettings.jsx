@@ -272,7 +272,7 @@ export default function ProfileSettings({ user, onUpdate, onClose }) {
       // Fix the image URL to use the full backend URL
       let imageUrl = currentUser.profileImage;
       if (imageUrl.startsWith('/uploads/')) {
-        imageUrl = `http://localhost:5000${imageUrl}`;
+        imageUrl = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${imageUrl}`;
         console.log('Fixed image URL:', imageUrl);
       }
       

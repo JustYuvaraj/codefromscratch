@@ -15,7 +15,7 @@ function Login() {
   const navigate = useNavigate();
 
   // Base URL for your backend API
-  const BACKEND_URL = 'http://localhost:5000';
+  const BACKEND_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   // Handle traditional form submission
   const handleSubmit = async (e) => {

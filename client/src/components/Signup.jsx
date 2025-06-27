@@ -82,7 +82,7 @@ export default function Signup() {
   };
 
   // Base URL for your backend API
-  const BACKEND_URL = 'http://localhost:5000';
+  const BACKEND_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   // Function to initiate Google OAuth login
   const handleGoogleLogin = () => {
