@@ -1,0 +1,386 @@
+{
+  "plan": {
+    "title": "200-Day FAANG DSA Mastery Plan",
+    "description": "Comprehensive 1000-problem study plan to crack FAANG coding interviews",
+    "totalDays": 200,
+    "totalProblems": 1000,
+    "targetCompanies": ["Google", "Amazon", "Meta", "Apple", "Netflix"],
+    "difficultyProgression": {
+      "week1-4": "Easy problems only",
+      "week5-8": "Mix of Easy and Medium",
+      "week9-12": "More Medium, some Easy Hard",
+      "week13-16": "Gradual Hard problems"
+    },
+    "days": [
+      {
+        "day": 1,
+        "week": 1,
+        "topic": "Array Basics - Hash Map Foundation",
+        "learningObjective": "Master basic hash map operations",
+        "problems": [
+          {
+            "id": 1,
+            "leetcodeNumber": 1,
+            "name": "Two Sum",
+            "difficulty": "Easy",
+            "link": "https://leetcode.com/problems/two-sum/",
+            "faangCompanies": ["Google", "Amazon", "Meta", "Apple", "Netflix"],
+            "concept": "Hash Map basics",
+            "buildsOn": "None - Foundation problem",
+            "successRate": 95,
+            "whyImportant": "Most asked problem in FAANG interviews"
+          },
+          {
+            "id": 2,
+            "leetcodeNumber": 217,
+            "name": "Contains Duplicate",
+            "difficulty": "Easy",
+            "link": "https://leetcode.com/problems/contains-duplicate/",
+            "faangCompanies": ["Google", "Amazon", "Meta"],
+            "concept": "Hash Map usage",
+            "buildsOn": "Uses hash map concept from Two Sum",
+            "successRate": 92,
+            "whyImportant": "Tests basic hash map operations"
+          },
+          {
+            "id": 3,
+            "leetcodeNumber": 242,
+            "name": "Valid Anagram",
+            "difficulty": "Easy",
+            "link": "https://leetcode.com/problems/valid-anagram/",
+            "faangCompanies": ["Google", "Amazon", "Meta"],
+            "concept": "Hash Map with character counting",
+            "buildsOn": "Uses hash map counting from Contains Duplicate",
+            "successRate": 90,
+            "whyImportant": "String manipulation with hash maps"
+          },
+          {
+            "id": 4,
+            "leetcodeNumber": 387,
+            "name": "First Unique Character in a String",
+            "difficulty": "Easy",
+            "link": "https://leetcode.com/problems/first-unique-character-in-a-string/",
+            "faangCompanies": ["Google", "Amazon", "Meta"],
+            "concept": "Hash Map with character frequency",
+            "buildsOn": "Uses character counting from Valid Anagram",
+            "successRate": 88,
+            "whyImportant": "Character frequency analysis"
+          },
+          {
+            "id": 5,
+            "leetcodeNumber": 350,
+            "name": "Intersection of Two Arrays II",
+            "difficulty": "Easy",
+            "link": "https://leetcode.com/problems/intersection-of-two-arrays-ii/",
+            "faangCompanies": ["Google", "Amazon", "Meta"],
+            "concept": "Hash Map with array intersection",
+            "buildsOn": "Uses hash map operations from all previous problems",
+            "successRate": 85,
+            "whyImportant": "Array intersection with hash maps"
+          }
+        ]
+      },
+      {
+        "day": 2,
+        "week": 1,
+        "topic": "Two Pointers - Building on Hash Maps",
+        "learningObjective": "Master two pointers technique",
+        "problems": [
+          {
+            "id": 6,
+            "leetcodeNumber": 167,
+            "name": "Two Sum II - Input Array Is Sorted",
+            "difficulty": "Easy",
+            "link": "https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/",
+            "faangCompanies": ["Google", "Amazon", "Meta"],
+            "concept": "Two pointers with sorted array",
+            "buildsOn": "Builds on Two Sum but uses sorted array advantage",
+            "successRate": 90,
+            "whyImportant": "Two pointers technique foundation"
+          },
+          {
+            "id": 7,
+            "leetcodeNumber": 15,
+            "name": "3Sum",
+            "difficulty": "Medium",
+            "link": "https://leetcode.com/problems/3sum/",
+            "faangCompanies": ["Google", "Amazon", "Meta", "Apple"],
+            "concept": "Two pointers with additional complexity",
+            "buildsOn": "Uses two pointers from Two Sum II with extra loop",
+            "successRate": 75,
+            "whyImportant": "Complex two pointers application"
+          },
+          {
+            "id": 8,
+            "leetcodeNumber": 18,
+            "name": "4Sum",
+            "difficulty": "Medium",
+            "link": "https://leetcode.com/problems/4sum/",
+            "faangCompanies": ["Google", "Meta"],
+            "concept": "Two pointers with more optimization",
+            "buildsOn": "Builds on 3Sum with additional complexity",
+            "successRate": 70,
+            "whyImportant": "Advanced two pointers optimization"
+          },
+          {
+            "id": 9,
+            "leetcodeNumber": 11,
+            "name": "Container With Most Water",
+            "difficulty": "Medium",
+            "link": "https://leetcode.com/problems/container-with-most-water/",
+            "faangCompanies": ["Google", "Amazon", "Meta", "Apple"],
+            "concept": "Two pointers for area calculation",
+            "buildsOn": "Uses two pointers concept from previous problems",
+            "successRate": 80,
+            "whyImportant": "Two pointers for optimization problems"
+          },
+          {
+            "id": 10,
+            "leetcodeNumber": 42,
+            "name": "Trapping Rain Water",
+            "difficulty": "Hard",
+            "link": "https://leetcode.com/problems/trapping-rain-water/",
+            "faangCompanies": ["Google", "Amazon", "Meta"],
+            "concept": "Two pointers with water trapping",
+            "buildsOn": "Builds on container concept from previous problem",
+            "successRate": 65,
+            "whyImportant": "Advanced two pointers application"
+          }
+        ]
+      },
+      {
+        "day": 3,
+        "week": 1,
+        "topic": "String Manipulation - Building on Array Concepts",
+        "learningObjective": "Master string operations using array concepts",
+        "problems": [
+          {
+            "id": 11,
+            "leetcodeNumber": 344,
+            "name": "Reverse String",
+            "difficulty": "Easy",
+            "link": "https://leetcode.com/problems/reverse-string/",
+            "faangCompanies": ["Google", "Amazon", "Meta", "Apple"],
+            "concept": "Two pointers with strings",
+            "buildsOn": "Uses two pointers concept from array problems",
+            "successRate": 95,
+            "whyImportant": "Basic string manipulation"
+          },
+          {
+            "id": 12,
+            "leetcodeNumber": 541,
+            "name": "Reverse String II",
+            "difficulty": "Easy",
+            "link": "https://leetcode.com/problems/reverse-string-ii/",
+            "faangCompanies": ["Google", "Amazon"],
+            "concept": "String reversal with conditions",
+            "buildsOn": "Builds on Reverse String with additional logic",
+            "successRate": 85,
+            "whyImportant": "Conditional string manipulation"
+          },
+          {
+            "id": 13,
+            "leetcodeNumber": 20,
+            "name": "Valid Parentheses",
+            "difficulty": "Easy",
+            "link": "https://leetcode.com/problems/valid-parentheses/",
+            "faangCompanies": ["Google", "Amazon", "Meta", "Apple", "Netflix"],
+            "concept": "Stack with string validation",
+            "buildsOn": "Uses string traversal from previous problems",
+            "successRate": 90,
+            "whyImportant": "Stack data structure introduction"
+          },
+          {
+            "id": 14,
+            "leetcodeNumber": 22,
+            "name": "Generate Parentheses",
+            "difficulty": "Medium",
+            "link": "https://leetcode.com/problems/generate-parentheses/",
+            "faangCompanies": ["Google", "Amazon", "Meta"],
+            "concept": "Backtracking with parentheses",
+            "buildsOn": "Builds on Valid Parentheses with generation",
+            "successRate": 75,
+            "whyImportant": "Backtracking technique introduction"
+          },
+          {
+            "id": 15,
+            "leetcodeNumber": 14,
+            "name": "Longest Common Prefix",
+            "difficulty": "Easy",
+            "link": "https://leetcode.com/problems/longest-common-prefix/",
+            "faangCompanies": ["Google", "Amazon", "Meta"],
+            "concept": "String comparison and prefix",
+            "buildsOn": "Uses string manipulation from previous problems",
+            "successRate": 88,
+            "whyImportant": "String comparison techniques"
+          }
+        ]
+      },
+      {
+        "day": 4,
+        "week": 1,
+        "topic": "String Search and Pattern Matching",
+        "learningObjective": "Master string search algorithms",
+        "problems": [
+          {
+            "id": 16,
+            "leetcodeNumber": 28,
+            "name": "Find the Index of the First Occurrence in a String",
+            "difficulty": "Easy",
+            "link": "https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/",
+            "faangCompanies": ["Google", "Amazon", "Meta"],
+            "concept": "String search algorithm",
+            "buildsOn": "Uses string traversal from previous problems",
+            "successRate": 85,
+            "whyImportant": "Basic string search implementation"
+          },
+          {
+            "id": 17,
+            "leetcodeNumber": 125,
+            "name": "Valid Palindrome",
+            "difficulty": "Easy",
+            "link": "https://leetcode.com/problems/valid-palindrome/",
+            "faangCompanies": ["Google", "Amazon", "Meta", "Apple"],
+            "concept": "Two pointers with string validation",
+            "buildsOn": "Uses two pointers from array problems with strings",
+            "successRate": 90,
+            "whyImportant": "Palindrome validation techniques"
+          },
+          {
+            "id": 18,
+            "leetcodeNumber": 5,
+            "name": "Longest Palindromic Substring",
+            "difficulty": "Medium",
+            "link": "https://leetcode.com/problems/longest-palindromic-substring/",
+            "faangCompanies": ["Google", "Amazon", "Meta"],
+            "concept": "Palindrome expansion",
+            "buildsOn": "Builds on Valid Palindrome with substring finding",
+            "successRate": 70,
+            "whyImportant": "Dynamic programming with strings"
+          },
+          {
+            "id": 19,
+            "leetcodeNumber": 647,
+            "name": "Palindromic Substrings",
+            "difficulty": "Medium",
+            "link": "https://leetcode.com/problems/palindromic-substrings/",
+            "faangCompanies": ["Google", "Meta"],
+            "concept": "Count all palindromic substrings",
+            "buildsOn": "Builds on Longest Palindromic Substring",
+            "successRate": 75,
+            "whyImportant": "Palindrome counting techniques"
+          },
+          {
+            "id": 20,
+            "leetcodeNumber": 3,
+            "name": "Longest Substring Without Repeating Characters",
+            "difficulty": "Medium",
+            "link": "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+            "faangCompanies": ["Google", "Amazon", "Meta", "Apple", "Netflix"],
+            "concept": "Sliding window with hash map",
+            "buildsOn": "Uses hash map from array problems with sliding window",
+            "successRate": 80,
+            "whyImportant": "Sliding window technique introduction"
+          }
+        ]
+      },
+      {
+        "day": 5,
+        "week": 1,
+        "topic": "Sliding Window - Building on Hash Maps and Strings",
+        "learningObjective": "Master sliding window technique",
+        "problems": [
+          {
+            "id": 21,
+            "leetcodeNumber": 76,
+            "name": "Minimum Window Substring",
+            "difficulty": "Hard",
+            "link": "https://leetcode.com/problems/minimum-window-substring/",
+            "faangCompanies": ["Google", "Amazon", "Meta"],
+            "concept": "Sliding window with optimization",
+            "buildsOn": "Builds on Longest Substring Without Repeating Characters",
+            "successRate": 60,
+            "whyImportant": "Advanced sliding window application"
+          },
+          {
+            "id": 22,
+            "leetcodeNumber": 438,
+            "name": "Find All Anagrams in a String",
+            "difficulty": "Medium",
+            "link": "https://leetcode.com/problems/find-all-anagrams-in-a-string/",
+            "faangCompanies": ["Google", "Amazon", "Meta"],
+            "concept": "Sliding window with anagram matching",
+            "buildsOn": "Uses anagram concept from Valid Anagram with sliding window",
+            "successRate": 75,
+            "whyImportant": "Pattern matching with sliding window"
+          },
+          {
+            "id": 23,
+            "leetcodeNumber": 567,
+            "name": "Permutation in String",
+            "difficulty": "Medium",
+            "link": "https://leetcode.com/problems/permutation-in-string/",
+            "faangCompanies": ["Google", "Amazon"],
+            "concept": "Sliding window with permutation check",
+            "buildsOn": "Builds on Find All Anagrams with permutation logic",
+            "successRate": 70,
+            "whyImportant": "Permutation checking techniques"
+          },
+          {
+            "id": 24,
+            "leetcodeNumber": 424,
+            "name": "Longest Repeating Character Replacement",
+            "difficulty": "Medium",
+            "link": "https://leetcode.com/problems/longest-repeating-character-replacement/",
+            "faangCompanies": ["Google", "Amazon", "Meta"],
+            "concept": "Sliding window with character replacement",
+            "buildsOn": "Uses sliding window from previous problems with replacement logic",
+            "successRate": 65,
+            "whyImportant": "Character replacement optimization"
+          },
+          {
+            "id": 25,
+            "leetcodeNumber": 209,
+            "name": "Minimum Size Subarray Sum",
+            "difficulty": "Medium",
+            "link": "https://leetcode.com/problems/minimum-size-subarray-sum/",
+            "faangCompanies": ["Google", "Amazon", "Meta"],
+            "concept": "Sliding window with sum optimization",
+            "buildsOn": "Uses sliding window concept with sum calculations",
+            "successRate": 80,
+            "whyImportant": "Sum optimization with sliding window"
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "createdAt": "2024-12-20",
+    "version": "1.0",
+    "totalWeeks": 28,
+    "difficultyDistribution": {
+      "easy": 400,
+      "medium": 450,
+      "hard": 150
+    },
+    "companyFocus": {
+      "google": 250,
+      "amazon": 250,
+      "meta": 200,
+      "apple": 150,
+      "netflix": 150
+    },
+    "topics": [
+      "Arrays and Strings",
+      "Linked Lists",
+      "Trees and Graphs",
+      "Dynamic Programming",
+      "Greedy Algorithms",
+      "Backtracking",
+      "Stacks and Queues",
+      "Heaps",
+      "Binary Search",
+      "Bit Manipulation"
+    ]
+  }
+} 

@@ -11,6 +11,8 @@ import SettingsPage from './pages/SettingsPage';
 import LeaderboardPage from './pages/LeaderboardPage';
 import CoursePage from './pages/CoursePage';
 import PlaygroundPage from './pages/PlaygroundPage';
+import MariaCodeVisualizer from './components/features/MariaCodeVisualizer';
+import DSAPlan from './components/features/DSAPlan';
 import './index.css';
 
 // Protected Route component
@@ -150,6 +152,8 @@ function AppContent() {
               <Route path="/leaderboard" element={<LeaderboardPage />} />
               <Route path="/courses" element={<CoursePage />} />
               <Route path="/playground" element={<PlaygroundPage />} />
+              <Route path="/maria-visualizer" element={<MariaCodeVisualizer />} />
+              <Route path="/dsa-plan" element={<DSAPlan />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </main>
