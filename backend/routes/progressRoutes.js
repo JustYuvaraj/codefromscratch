@@ -45,7 +45,7 @@ router.get('/overview', isAuthenticated, async (req, res) => {
 router.get('/streak-calendar', isAuthenticated, async (req, res) => {
   try {
     const userId = req.user._id;
-    
+
     const streaks = await UserStreak.find({ userId }).sort({ date: 1 });
     
     // Convert to the format expected by StreakCalendar component
@@ -165,7 +165,7 @@ router.get('/solved', isAuthenticated, async (req, res) => {
   try {
     const userId = req.user._id;
     const { page = 1, limit = 20 } = req.query;
-
+    
     const progress = await UserProgress.find({ userId, status: 'solved' })
       .populate('problemId')
       .sort({ solvedAt: -1 })
@@ -193,6 +193,43 @@ router.get('/solved', isAuthenticated, async (req, res) => {
       success: false,
       message: 'Failed to fetch solved problems'
     });
+  }
+});
+
+// Update problem progress by problem link
+router.post('/problem/by-link', isAuthenticated, async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { link, status, timeSpent, notes, rating } = req.body;
+    if (!link) {
+      return res.status(400).json({ success: false, message: 'Problem link is required' });
+    }
+    // Find the problem by link
+    const problem = await Problem.findOne({ link });
+    if (!problem) {
+      return res.status(404).json({ success: false, message: 'Problem not found' });
+    }
+    // Find or create progress record
+    let progress = await UserProgress.findOne({ userId, problemId: problem._id });
+    if (!progress) {
+      progress = new UserProgress({ userId, problemId: problem._id, status: 'not_started', attempts: 0 });
+    }
+    // Update progress
+    if (status) {
+      progress.status = status;
+      if (status === 'solved' && !progress.solvedAt) {
+        progress.solvedAt = new Date();
+      }
+    }
+    if (timeSpent !== undefined) progress.timeSpent += timeSpent;
+    if (notes !== undefined) progress.notes = notes;
+    if (rating !== undefined) progress.rating = rating;
+    if (status && ['attempted', 'solved'].includes(status)) progress.attempts += 1;
+    await progress.save();
+    res.json({ success: true, data: progress });
+  } catch (error) {
+    console.error('Update progress by link error:', error);
+    res.status(500).json({ success: false, message: 'Failed to update progress by link' });
   }
 });
 
