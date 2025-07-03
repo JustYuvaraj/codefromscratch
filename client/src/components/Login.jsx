@@ -49,7 +49,7 @@ function Login() {
   const handleGoogleLogin = () => {
     const isProd = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
     const backendUrl = isProd
-      ? 'https://codefromscratch.onrender.com'
+      ? (import.meta.env.VITE_API_URL || 'https://codefromscratch.duckdns.org')
       : 'http://localhost:5000';
     window.location.href = `${backendUrl}/api/auth/google`;
   };
@@ -58,7 +58,7 @@ function Login() {
   const handleGitHubLogin = () => {
     const isProd = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
     const backendUrl = isProd
-      ? 'https://codefromscratch.onrender.com'
+      ? (import.meta.env.VITE_API_URL || 'https://codefromscratch.duckdns.org')
       : 'http://localhost:5000';
     window.location.href = `${backendUrl}/api/auth/github`;
   };

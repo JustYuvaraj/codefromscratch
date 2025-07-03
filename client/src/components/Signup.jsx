@@ -81,17 +81,22 @@ export default function Signup() {
     }
   };
 
-  // Base URL for your backend API
-  const BACKEND_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-
   // Function to initiate Google OAuth login
   const handleGoogleLogin = () => {
-    window.location.href = `${BACKEND_URL}/api/auth/google`;
+    const isProd = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const backendUrl = isProd
+      ? (import.meta.env.VITE_API_URL || 'https://codefromscratch.duckdns.org')
+      : 'http://localhost:5000';
+    window.location.href = `${backendUrl}/api/auth/google`;
   };
 
   // Function to initiate GitHub OAuth login
   const handleGithubLogin = () => {
-    window.location.href = `${BACKEND_URL}/api/auth/github`;
+    const isProd = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const backendUrl = isProd
+      ? (import.meta.env.VITE_API_URL || 'https://codefromscratch.duckdns.org')
+      : 'http://localhost:5000';
+    window.location.href = `${backendUrl}/api/auth/github`;
   };
 
   return (
