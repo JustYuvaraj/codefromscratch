@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
+const MongoStore = require('connect-mongo');
 require("dotenv").config();
 require("./config/passport"); // Load strategies first
 
@@ -12,26 +13,32 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
-    credentials: true,
+    origin: 'https://codefromscratch.vercel.app',
+    credentials: true
   })
 );
 app.use(express.json());
 
+app.set('trust proxy', 1);
+
 // Session configuration
-app.use(
-  session({
-    secret: process.env.JWT_SECRET || "your-secret-key",
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
-    }
-  })
-);
+const sessionOptions = {
+  secret: process.env.SESSION_SECRET || 'your_secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    sameSite: 'none',
+    secure: true,
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
+};
+
+if (process.env.MONGODB_URI) {
+  sessionOptions.store = MongoStore.create({ mongoUrl: process.env.MONGODB_URI });
+}
+
+app.use(session(sessionOptions));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -46,6 +53,11 @@ app.get('/api/health', (req, res) => {
     message: 'Server is running',
     timestamp: new Date().toISOString()
   });
+});
+
+// Add a root route for friendly message
+app.get('/', (req, res) => {
+  res.send('Backend is running! 🚀');
 });
 
 // Routes

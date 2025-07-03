@@ -82,6 +82,16 @@ function AppContent() {
     checkAuth();
   }, []);
 
+  // Force reload after OAuth login to get new session
+  useEffect(() => {
+    if (window.location.search.includes('authStatus=success')) {
+      // Remove the query param without reloading
+      window.history.replaceState({}, document.title, window.location.pathname);
+      // Optionally, you can force a re-check of auth here if needed
+      // For example, setIsLoading(true); checkAuth();
+    }
+  }, []);
+
   // Global user update function
   const handleUserUpdate = (updatedUser) => {
     console.log('Global user update:', updatedUser);

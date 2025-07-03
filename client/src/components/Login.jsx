@@ -47,12 +47,20 @@ function Login() {
 
   // Function to initiate Google OAuth login
   const handleGoogleLogin = () => {
-    window.location.href = `${BACKEND_URL}/api/auth/google`;
+    const isProd = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const backendUrl = isProd
+      ? 'https://codefromscratch.onrender.com'
+      : 'http://localhost:5000';
+    window.location.href = `${backendUrl}/api/auth/google`;
   };
 
   // Function to initiate GitHub OAuth login
   const handleGitHubLogin = () => {
-    window.location.href = `${BACKEND_URL}/api/auth/github`;
+    const isProd = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const backendUrl = isProd
+      ? 'https://codefromscratch.onrender.com'
+      : 'http://localhost:5000';
+    window.location.href = `${backendUrl}/api/auth/github`;
   };
 
   return (

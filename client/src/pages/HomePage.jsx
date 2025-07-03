@@ -48,6 +48,7 @@ function AuthenticatedHomePage({ user }) {
   const [learningRecommendations, setLearningRecommendations] = useState([]);
   const [dailyChallenge, setDailyChallenge] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [focusBgToggled, setFocusBgToggled] = useState(false);
 
   useEffect(() => {
     // Simulate async fetch
@@ -110,13 +111,11 @@ function AuthenticatedHomePage({ user }) {
     return 'text-blue-400';
   };
 
-  const [focusBgToggled, setFocusBgToggled] = useState(false);
-
   return (
-    <div className="min-h-screen bg-[#0f0f0f] text-white px-4 sm:px-8 py-8 flex flex-col gap-8">
+    <div className="min-h-screen bg-[#0f0f0f] text-white px-2 sm:px-4 py-4 flex flex-col gap-4">
       {/* User Stats & Recommendations */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-        <div className="bg-white/5 rounded-2xl shadow-lg border border-white/10 p-6 flex flex-col gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <div className="bg-white/5 rounded-2xl shadow-lg border border-white/10 p-4 flex flex-col gap-4">
           <h2 className="text-xl sm:text-2xl font-bold mb-2">👋 Welcome, {user?.name || user?.username || 'User'}!</h2>
           <div className="flex flex-wrap gap-4">
             <div className="flex flex-col items-center">
@@ -137,7 +136,7 @@ function AuthenticatedHomePage({ user }) {
             </div>
           </div>
         </div>
-        <div className="bg-white/5 rounded-2xl shadow-lg border border-white/10 p-6 flex flex-col gap-4">
+        <div className="bg-white/5 rounded-2xl shadow-lg border border-white/10 p-4 flex flex-col gap-4">
           <h2 className="text-xl sm:text-2xl font-bold mb-2">🎯 Learning Recommendations</h2>
           <div className="flex flex-col gap-3">
             {learningRecommendations.map((rec) => (
@@ -158,7 +157,7 @@ function AuthenticatedHomePage({ user }) {
       </div>
 
       {/* Daily Challenge */}
-      <div className="bg-white/5 rounded-2xl shadow-lg border border-white/10 p-6 flex flex-col gap-3 max-w-2xl mx-auto">
+      <div className="bg-white/5 rounded-2xl shadow-lg border border-white/10 p-4 flex flex-col gap-3 max-w-2xl mx-auto">
         <h2 className="text-xl sm:text-2xl font-bold mb-2">🔥 Daily Challenge</h2>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
           <span className="font-semibold text-green-400">{dailyChallenge?.title}</span>

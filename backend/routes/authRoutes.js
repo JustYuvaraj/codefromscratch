@@ -465,7 +465,7 @@ router.get(
     failureRedirect: `${FRONTEND_URL}/login?authStatus=failure`,
   }),
   (req, res) => {
-    res.redirect(`${FRONTEND_URL}/courses?authStatus=success`);
+    res.redirect(`${FRONTEND_URL}/?authStatus=success`);
   }
 );
 
@@ -478,7 +478,7 @@ router.get(
     failureRedirect: `${FRONTEND_URL}/login?authStatus=failure`,
   }),
   (req, res) => {
-    res.redirect(`${FRONTEND_URL}/courses?authStatus=success`);
+    res.redirect(`${FRONTEND_URL}/?authStatus=success`);
   }
 );
 

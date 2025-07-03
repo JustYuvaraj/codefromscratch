@@ -16,7 +16,7 @@ export default function SettingsPage({ user, onUserUpdate }) {
     
     // Also update the global user state
     if (window.updateGlobalUser) {
-      window.updateGlobalUser(updatedUser);
+        window.updateGlobalUser(updatedUser);
     }
   };
 

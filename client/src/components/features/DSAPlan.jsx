@@ -116,8 +116,8 @@ const DSAPlan = () => {
   if (loading) return <DSAPlanSkeleton />;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] px-4 sm:px-6 py-6">
-      <div className="max-w-7xl mx-auto flex flex-col gap-8">
+    <div className="min-h-screen bg-gradient-to-br from-[#0b0c1a] via-[#0f111f] to-[#101118] px-2 sm:px-4 py-4">
+      <div className="max-w-7xl mx-auto flex flex-col gap-4">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -137,9 +137,9 @@ const DSAPlan = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8"
+          className="grid grid-cols-1 md:grid-cols-4 gap-4 sm:gap-6 mb-8"
         >
-          <div className="bg-white/5 rounded-2xl p-6 border border-white/10 flex flex-col items-center">
+          <div className="bg-white/5 rounded-2xl p-4 border border-white/10 flex flex-col items-center">
             <div className="flex items-center gap-3 mb-2">
               <MdTrendingUp className="text-cyan-400 text-xl" />
               <h3 className="text-white font-semibold text-base sm:text-lg">Day Progress</h3>
@@ -157,7 +157,7 @@ const DSAPlan = () => {
               ></div>
             </div>
           </div>
-          <div className="bg-white/5 rounded-2xl p-6 border border-white/10 flex flex-col items-center">
+          <div className="bg-white/5 rounded-2xl p-4 border border-white/10 flex flex-col items-center">
             <div className="flex items-center gap-3 mb-2">
               <FaBullseye className="text-green-400 text-xl" />
               <h3 className="text-white font-semibold text-base sm:text-lg">Easy</h3>
@@ -166,7 +166,7 @@ const DSAPlan = () => {
               {difficultyStats.easy}
             </div>
           </div>
-          <div className="bg-white/5 rounded-2xl p-6 border border-white/10 flex flex-col items-center">
+          <div className="bg-white/5 rounded-2xl p-4 border border-white/10 flex flex-col items-center">
             <div className="flex items-center gap-3 mb-2">
               <FaBullseye className="text-yellow-400 text-xl" />
               <h3 className="text-white font-semibold text-base sm:text-lg">Medium</h3>
@@ -175,7 +175,7 @@ const DSAPlan = () => {
               {difficultyStats.medium}
             </div>
           </div>
-          <div className="bg-white/5 rounded-2xl p-6 border border-white/10 flex flex-col items-center">
+          <div className="bg-white/5 rounded-2xl p-4 border border-white/10 flex flex-col items-center">
             <div className="flex items-center gap-3 mb-2">
               <FaBullseye className="text-red-400 text-xl" />
               <h3 className="text-white font-semibold text-base sm:text-lg">Hard</h3>
@@ -211,7 +211,7 @@ const DSAPlan = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="bg-white/5 rounded-2xl p-6 border border-white/10 mb-8"
+          className="bg-white/5 rounded-2xl p-4 border border-white/10 mb-8"
         >
           <div className="mb-6">
             <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">

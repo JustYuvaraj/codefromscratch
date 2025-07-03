@@ -5,6 +5,14 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+  overflow-x: hidden;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* Custom animations */
 @keyframes tempting-glow {
   0%, 100% {
