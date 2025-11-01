@@ -32,9 +32,10 @@ function Login() {
       setEmail('');
       setPassword('');
       
-      // Redirect to courses after a short delay
+      // Redirect and reload to establish session
       setTimeout(() => {
-        navigate('/courses');
+        // Reload the page to fetch the new session
+        window.location.href = '/courses';
       }, 1500);
       
     } catch (error) {

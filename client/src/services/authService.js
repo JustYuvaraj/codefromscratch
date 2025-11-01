@@ -13,6 +13,7 @@ export const register = async (userData) => {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include', // Include credentials for session-based auth
       body: JSON.stringify(userData),
     });
 
@@ -38,6 +39,7 @@ export const login = async (credentials) => {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include', // Include credentials for session-based auth
       body: JSON.stringify(credentials),
     });
 

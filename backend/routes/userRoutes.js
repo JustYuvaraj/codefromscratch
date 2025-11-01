@@ -62,8 +62,11 @@ router.get("/leaderboard", async (req, res) => {
   try {
     // Get all users with LeetCode usernames
     const users = await User.find({ 
-      leetcodeUsername: { $exists: true, $ne: null },
-      leetcodeUsername: { $not: /^user_/ } // Exclude temporary usernames
+      leetcodeUsername: { 
+        $exists: true, 
+        $ne: null,
+        $not: /^user_/ // Exclude temporary usernames
+      }
     }).select('username leetcodeUsername name email createdAt');
 
     // Fetch LeetCode data for each user

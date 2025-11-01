@@ -129,15 +129,25 @@ router.post("/register", async (req, res) => {
 
     await newUser.save();
 
-    res.status(201).json({ 
-      message: "User registered successfully",
-      user: {
-        id: newUser._id,
-        username: newUser.username,
-        email: newUser.email,
-        leetcodeUsername: newUser.leetcodeUsername,
-        name: newUser.name
+    // Automatically log in the user after registration
+    req.login(newUser, (err) => {
+      if (err) {
+        console.error("Auto-login error after registration:", err);
+        return res.status(500).json({ message: "Registration successful but login failed. Please log in manually." });
       }
+      
+      res.status(201).json({ 
+        message: "User registered successfully",
+        user: {
+          id: newUser._id,
+          username: newUser.username,
+          email: newUser.email,
+          leetcodeUsername: newUser.leetcodeUsername,
+          name: newUser.name,
+          profileImage: newUser.profileImage,
+          profileImageSource: newUser.profileImageSource
+        }
+      });
     });
 
   } catch (error) {
@@ -194,6 +204,29 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ message: "Server error during login" });
+  }
+});
+
+// Validate LeetCode username endpoint
+router.post("/validate-leetcode", async (req, res) => {
+  try {
+    const { username } = req.body;
+    
+    if (!username) {
+      return res.status(400).json({ 
+        isValid: false, 
+        error: 'Username is required' 
+      });
+    }
+
+    const validation = await validateLeetCodeUsername(username);
+    res.json(validation);
+  } catch (error) {
+    console.error('LeetCode validation error:', error);
+    res.status(500).json({ 
+      isValid: false, 
+      error: 'Failed to validate LeetCode username' 
+    });
   }
 });
 

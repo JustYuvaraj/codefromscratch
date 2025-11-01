@@ -1,23 +1,29 @@
-// A placeholder for LeetCode API validation
+// Validate LeetCode username using backend API
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 export const validateLeetCodeUsername = async (username) => {
   console.log(`Validating LeetCode username: ${username}`);
   
-  // In a real implementation, you would make an API call to a backend service
-  // that queries the LeetCode API to avoid CORS issues and to keep any API keys secure.
-  
-  // For now, let's simulate a successful validation for demonstration purposes.
-  // We can add a fake delay to simulate a network request.
-  await new Promise(resolve => setTimeout(resolve, 500));
-  
-  if (!username) {
-    return { isValid: false, error: 'Username cannot be empty.' };
-  }
+  try {
+    if (!username || !username.trim()) {
+      return { isValid: false, error: 'Username cannot be empty.' };
+    }
 
-  // Simulate a check for a common "invalid" username for testing purposes
-  if (username.toLowerCase() === 'invaliduser') {
-    return { isValid: false, error: 'This username is known to be invalid.' };
+    const response = await fetch(`${API_BASE_URL}/auth/validate-leetcode`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username: username.trim() }),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error validating LeetCode username:', error);
+    return { 
+      isValid: false, 
+      error: 'Failed to validate LeetCode username. Please try again.' 
+    };
   }
-  
-  // Simulate success
-  return { isValid: true };
-}; 
+};

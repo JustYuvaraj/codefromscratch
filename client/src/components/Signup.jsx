@@ -65,12 +65,13 @@ export default function Signup() {
     try {
       const response = await register(form);
       console.log("✅ Signup Success:", response);
-      setMessage("✅ Account created successfully! Redirecting to courses...");
+      setMessage("✅ Account created successfully! Redirecting...");
       setForm({ leetcodeUsername: "", email: "", password: "" }); // Clear form on success
       
-      // Redirect to courses after a short delay
+      // Redirect and reload to establish session
       setTimeout(() => {
-        navigate('/courses');
+        // Reload the page to fetch the new session
+        window.location.href = '/courses';
       }, 1500);
       
     } catch (error) {
