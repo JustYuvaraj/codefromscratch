@@ -37,6 +37,9 @@
 ### Q1. Maximum Subarray Sum (Kadane's Algorithm) ⭐⭐⭐
 **Reported:** Multiple times across 2023-2025
 
+> **Q: Given an array of integers (can include negatives), find the contiguous subarray with the maximum sum. Print the sum.**
+> Input: `[-2, 1, -3, 4, -1, 2, 1, -5, 4]` → Output: `6` (subarray `[4, -1, 2, 1]`)
+
 ```c
 #include <stdio.h>
 
@@ -77,6 +80,9 @@ int main() {
 ### Q2. Second Smallest Element in Array ⭐⭐⭐
 **Reported:** FacePrep, Scribd interview experiences
 
+> **Q: Find the second smallest element in an array. Do it in a single pass O(n) without sorting.**
+> Input: `[5, 2, 8, 1, 9, 3]` → Output: `2`
+
 ```c
 #include <stdio.h>
 #include <limits.h>
@@ -114,6 +120,9 @@ int main() {
 
 ### Q3. Sort an Array (Multiple Sorting Algorithms) ⭐⭐⭐
 **Reported:** FacePrep, GFG
+
+> **Q: Sort an array of integers in ascending order. Implement Bubble Sort and Selection Sort. Explain the logic.**
+> Input: `[5, 3, 1, 4, 2]` → Output: `[1, 2, 3, 4, 5]`
 
 Know **Bubble Sort** (easiest to write) and **Selection Sort** (asked to explain):
 
@@ -154,6 +163,9 @@ void selectionSort(int arr[], int n) {
 
 ### Q4. Longest Subarray with Sum Zero ⭐⭐⭐
 **Reported:** GFG Interview Experience (exact question)
+
+> **Q: Given an array of positive and negative integers, find the longest contiguous subarray whose elements sum to zero. Print the subarray and its length.**
+> Input: `[1, 2, -3, 3, 1, -1, -2]` → Output: `[2, -3, 3, 1, -1]` (length 5)
 
 ```c
 #include <stdio.h>
@@ -199,7 +211,8 @@ int main() {
 ### Q5. Min Absolute Difference + Max Index Difference ⭐⭐
 **Reported:** GFG Interview Experience (exact wording)
 
-> "Given an array, find the pair where absolute difference is minimum AND the difference between indices is maximum."
+> **Q: Given an array, find a pair of elements where the absolute value difference is minimum AND the difference between their indices is maximum.**
+> Input: `[4, 2, 1, 3, 2, 5]` → Find pair with smallest |arr[i]-arr[j]| and largest |i-j|
 
 ```c
 #include <stdio.h>
@@ -241,6 +254,9 @@ int main() {
 ### Q6. Sum of Perfect Squares in Array ⭐⭐
 **Reported:** Scribd interview experience
 
+> **Q: Given an array, find the sum of all elements that are perfect squares (1, 4, 9, 16, 25...).**
+> Input: `[2, 4, 7, 9, 16, 3, 25]` → Output: `54` (4+9+16+25)
+
 ```c
 #include <stdio.h>
 #include <math.h>
@@ -277,7 +293,8 @@ int main() {
 ### Q7. Subset Sum — Maximum Elements That Sum to Target ⭐⭐
 **Reported:** Medium interview experience
 
-> "Given an array and a target sum, find the maximum number of elements that can be selected to sum up to target."
+> **Q: Given an array and a target sum, find the maximum number of elements that can be selected to sum up to the target exactly.**
+> Input: `arr=[3, 1, 4, 2, 5], target=6` → Output: `3` (1+2+3=6)
 
 ```c
 #include <stdio.h>
@@ -317,7 +334,8 @@ int main() {
 ### Q8. Plus One (LeetCode 66) ⭐⭐
 **Reported:** YouTube interview experience
 
-> "Given a number represented as an array of digits, add one to the number."
+> **Q: A number is represented as an array of digits. Add one to the number and return the result.**
+> Input: `[1, 2, 9]` → Output: `[1, 3, 0]` | Input: `[9, 9, 9]` → Output: `[1, 0, 0, 0]`
 
 ```c
 #include <stdio.h>
@@ -360,6 +378,9 @@ int main() {
 ### Q9. Reverse a String ⭐⭐⭐
 **Reported:** Multiple experiences
 
+> **Q: Reverse a string in-place using two pointers (no extra array).**
+> Input: `"Soliton"` → Output: `"notiloS"`
+
 ```c
 #include <stdio.h>
 #include <string.h>
@@ -389,7 +410,8 @@ int main() {
 ### Q10. Print Unique Strings (Ignore Case + Special Chars) ⭐⭐⭐
 **Reported:** GFG Interview Experience (EXACT question)
 
-> "Given array of strings like 'Ram N', 'ramN', 'RamN', 'ramn' — print only unique ones ignoring case and special characters."
+> **Q: Given an array of strings like `["Ram N", "ramN", "RamN", "ramn", "Hello", "hello!"]`, print only unique strings — ignoring case and non-alphabetic characters.**
+> Input: `["Ram N", "ramN", "RamN", "ramn", "Hello", "hello!", "World"]` → Output: `Ram N, Hello, World`
 
 ```c
 #include <stdio.h>
@@ -442,7 +464,8 @@ int main() {
 ### Q11. Check Password Strength ⭐⭐
 **Reported:** GFG Interview Experience
 
-> Rules: Must have uppercase, lowercase, digit, special char, length ≥ 8.
+> **Q: Check if a password is Strong, Medium, or Weak. Rules: must have uppercase, lowercase, digit, special character, and length ≥ 8.**
+> Input: `"Soliton@2024"` → Output: `Strong` | Input: `"soliton"` → Output: `Weak (too short, missing uppercase, digit, special)`
 
 ```c
 #include <stdio.h>
@@ -488,6 +511,9 @@ int main() {
 
 ### Q12. FLAMES Game ⭐⭐
 **Reported:** Scribd interview experience
+
+> **Q: Implement the FLAMES game. Take two names, cancel common characters, count remaining. Use that count to eliminate letters from "FLAMES" one by one until one remains.**
+> Input: `"SOLITON", "CODING"` → Output: one of F/L/A/M/E/S meaning
 
 ```c
 #include <stdio.h>
@@ -554,6 +580,9 @@ int main() {
 ### Q13. Minimum Repeating Characters in String ⭐⭐
 **Reported:** Scribd interview experience
 
+> **Q: Find the character that repeats (appears more than once) the fewest number of times in a string.**
+> Input: `"programming"` → Output: character with minimum repeat count (among those that repeat)
+
 ```c
 #include <stdio.h>
 #include <string.h>
@@ -595,6 +624,9 @@ int main() {
 
 ### Q14. Valid Parentheses (LeetCode 20) ⭐⭐
 **Reported:** YouTube interview experience
+
+> **Q: Given a string containing `()`, `{}`, `[]`, check if every opening bracket has a matching closing bracket in correct order.**
+> Input: `"({[]})"` → Output: `Valid` | Input: `"({[}])"` → Output: `Invalid`
 
 ```c
 #include <stdio.h>
@@ -643,6 +675,9 @@ int main() {
 **Reported:** GFG Interview Experience (exact: "without using linked lists or auxiliary arrays")
 
 **This is a SOLITON FAVORITE — asked multiple times!**
+
+> **Q: Rotate a square matrix 90° clockwise WITHOUT using any extra matrix. Do it in-place.**
+> Input: `[[1,2,3],[4,5,6],[7,8,9]]` → Output: `[[7,4,1],[8,5,2],[9,6,3]]`
 
 ```c
 #include <stdio.h>
@@ -712,6 +747,9 @@ Original:       Transpose:      Reverse rows:
 ### Q16. Matrix Transpose + Multiply with Original ⭐⭐
 **Reported:** GFG Interview Experience (exact question)
 
+> **Q: Find the transpose of a matrix, then multiply the original matrix with its transpose. Print the result.**
+> Input: `A=[[1,2],[3,4]]` → A^T=`[[1,3],[2,4]]` → A×A^T=`[[5,11],[11,25]]`
+
 ```c
 #include <stdio.h>
 
@@ -761,6 +799,9 @@ int main() {
 ### Q17. Prime Number Check ⭐⭐⭐
 **Reported:** FacePrep, multiple experiences
 
+> **Q: Check if a given number is prime. Optimize to check only up to √N.**
+> Input: `17` → Output: `Prime` | Input: `15` → Output: `Not Prime`
+
 ```c
 #include <stdio.h>
 
@@ -791,6 +832,10 @@ int main() {
 
 ### Q18. Palindrome Check ⭐⭐⭐
 **Reported:** FacePrep
+
+> **Q: Check if a number/string is a palindrome (reads same forwards and backwards).**
+> Input (number): `121` → Output: `Palindrome` | Input: `123` → Output: `Not Palindrome`
+> Input (string): `"madam"` → Output: `Palindrome`
 
 ```c
 // Number palindrome
@@ -823,7 +868,8 @@ int isStringPalindrome(const char *str) {
 ### Q19. Armstrong Number ⭐⭐
 **Reported:** FacePrep
 
-> 153 = 1³ + 5³ + 3³ = 1 + 125 + 27 = 153 ✅
+> **Q: Check if a number is an Armstrong number (sum of each digit raised to the power of total digits equals the number).**
+> Input: `153` → 1³+5³+3³ = 1+125+27 = 153 → Output: `Yes` | Input: `123` → Output: `No`
 
 ```c
 #include <stdio.h>
@@ -860,6 +906,9 @@ int main() {
 
 ### Q20. Binary to Hexadecimal ⭐⭐
 **Reported:** GFG Interview Experience
+
+> **Q: Convert a binary string to its hexadecimal representation.**
+> Input: `"11011110"` → Output: `0xDE` | Input: `"10100"` → Output: `0x14`
 
 ```c
 #include <stdio.h>
@@ -908,6 +957,9 @@ int main() {
 ### Q21. Count Leading Zeroes (16-bit) ⭐⭐
 **Reported:** Scribd interview experience
 
+> **Q: Count the number of leading zeros in the 16-bit binary representation of a number.**
+> Input: `1` (0000000000000001) → Output: `15` | Input: `256` (0000000100000000) → Output: `7`
+
 ```c
 #include <stdio.h>
 
@@ -940,6 +992,9 @@ int main() {
 
 ### Q22. Star Patterns (Multiple Types) ⭐⭐⭐
 **Reported:** FacePrep, multiple experiences
+
+> **Q: Print various star patterns — right triangle, inverted triangle, pyramid, and diamond. Given N rows.**
+> Input: `n=4` → Output: (see pattern shapes below)
 
 ```c
 // Pattern 1: Right triangle
@@ -1005,6 +1060,10 @@ void pattern4(int n) {
 ### Q23. Number Patterns ⭐⭐
 **Reported:** FacePrep
 
+> **Q: Print Floyd's Triangle and Pascal's Triangle for N rows.**
+> Floyd's (n=4): rows of sequential numbers (1 / 2 3 / 4 5 6 / 7 8 9 10)
+> Pascal's (n=4): each number = sum of two numbers above it (1 / 1 1 / 1 2 1 / 1 3 3 1)
+
 ```c
 // Floyd's Triangle:
 // 1
@@ -1046,7 +1105,8 @@ void pascalsTriangle(int n) {
 ### Q24. Parse Array from String Input ⭐⭐⭐⭐⭐
 **Reported as THE BIGGEST TRAP — many candidates fail here!**
 
-> Soliton gives input like: `"[1, 2, 3, 4, 5]"` as a string. YOU must parse it into an actual int array.
+> **Q: Input is given as a STRING like `"[1, 2, -3, 4, 5]"`. Parse this string into an actual integer array. Handle negative numbers and multi-digit numbers.**
+> Input: `"[1, 2, -3, 4, 5]"` → Output: `arr = {1, 2, -3, 4, 5}`, size = 5
 
 ```c
 #include <stdio.h>
@@ -1129,6 +1189,9 @@ while (token != NULL) {
 ### Q25. Shortest Unsorted Continuous Subarray (LeetCode 581) ⭐⭐
 **Reported:** YouTube interview experience
 
+> **Q: Find the shortest subarray which, when sorted, makes the entire array sorted.**
+> Input: `[2, 6, 4, 8, 10, 9, 15]` → Output: `5` (subarray `[6, 4, 8, 10, 9]` needs sorting)
+
 ```c
 #include <stdio.h>
 
@@ -1169,6 +1232,9 @@ int main() {
 
 ### Q26. Factorial (Recursive + Iterative) ⭐⭐
 
+> **Q: Calculate N! (factorial of N) using both recursive and iterative methods.**
+> Input: `5` → Output: `120` (5×4×3×2×1)
+
 ```c
 // Recursive
 int factorialRec(int n) {
@@ -1189,6 +1255,9 @@ int factorialIter(int n) {
 
 ### Q27. Fibonacci Series ⭐⭐
 
+> **Q: Print the first N Fibonacci numbers. Fib: 0, 1, 1, 2, 3, 5, 8, 13...**
+> Input: `n=8` → Output: `0 1 1 2 3 5 8 13`
+
 ```c
 void fibonacci(int n) {
     int a = 0, b = 1;
@@ -1206,6 +1275,9 @@ void fibonacci(int n) {
 
 ### Q28. Sort Words + Search + Save to File ⭐⭐
 **Reported:** Freshersworld interview experience
+
+> **Q: Given an array of words, sort them alphabetically using bubble sort, search for a specific word, and save the sorted list to a file.**
+> Input: `["banana", "apple", "cherry", "date", "elderberry"]` → Sorted, search "cherry", save to file
 
 ```c
 #include <stdio.h>
@@ -1268,6 +1340,9 @@ int main() {
 ### Q29. Count Set Bits (Hamming Weight) ⭐⭐⭐
 **Why predicted:** Fundamental embedded interview question. Soliton works with hardware registers.
 
+> **Q: Given an integer N, count the number of 1s in its binary representation.**
+> Input: `13` → Binary: `1101` → Output: `3`
+
 ```c
 #include <stdio.h>
 
@@ -1309,6 +1384,9 @@ int main() {
 
 ### Q30. Check if Number is Power of 2 ⭐⭐⭐
 
+> **Q: Given an integer N, check whether it is a power of 2.**
+> Input: `8` → Output: `Yes` | Input: `6` → Output: `No`
+
 ```c
 int isPowerOf2(int n) {
     // Powers of 2 have exactly ONE set bit
@@ -1326,6 +1404,9 @@ int isPowerOf2(int n) {
 
 ### Q31. Swap Two Numbers WITHOUT Temp Variable ⭐⭐⭐
 **Classic embedded interview question**
+
+> **Q: Swap two integers without using a temporary variable. Show two methods.**
+> Input: `a=5, b=10` → Output: `a=10, b=5`
 
 ```c
 #include <stdio.h>
@@ -1354,6 +1435,9 @@ int main() {
 
 ### Q32. Toggle a Specific Bit ⭐⭐
 **Embedded favorite — setting/clearing/toggling bits in hardware registers**
+
+> **Q: Write functions to Set, Clear, Toggle, and Check a specific bit at position `pos` in a number.**
+> Input: `n=13 (1101), pos=1` → Set: `15 (1111)` | Clear: `9 (1001)` | Toggle: `12 (1100)`
 
 ```c
 #include <stdio.h>
@@ -1393,6 +1477,9 @@ int main() {
 
 ### Q33. Swap Nibbles (Swap Upper & Lower 4 Bits of a Byte) ⭐⭐
 
+> **Q: Swap the upper 4 bits and lower 4 bits of a byte (8-bit number).**
+> Input: `0x2A (00101010)` → Output: `0xA2 (10100010)`
+
 ```c
 #include <stdio.h>
 
@@ -1411,6 +1498,9 @@ int main() {
 ---
 
 ### Q34. Reverse Bits of a Number ⭐⭐
+
+> **Q: Reverse all 32 bits of a given unsigned integer.**
+> Input: `13 (00...01101)` → Output: reversed 32-bit integer
 
 ```c
 #include <stdio.h>
@@ -1442,6 +1532,9 @@ int main() {
 
 ### Q35. Implement strlen ⭐⭐⭐
 
+> **Q: Write your own version of `strlen()` — return the length of a string (not counting `\0`).**
+> Input: `"hello"` → Output: `5`
+
 ```c
 int myStrlen(const char *s) {
     int len = 0;
@@ -1461,6 +1554,9 @@ int myStrlenPtr(const char *s) {
 
 ### Q36. Implement strcpy ⭐⭐⭐
 
+> **Q: Write your own `strcpy()` — copy string `src` into `dest` including the null terminator.**
+> Input: `src="hello"` → `dest` becomes `"hello"`
+
 ```c
 char* myStrcpy(char *dest, const char *src) {
     char *original = dest;
@@ -1478,6 +1574,9 @@ char* myStrcpy(char *dest, const char *src) {
 
 ### Q37. Implement strcmp ⭐⭐⭐
 
+> **Q: Write your own `strcmp()` — compare two strings. Return 0 if equal, negative if s1<s2, positive if s1>s2.**
+> Input: `"abc", "abd"` → Output: negative (c < d)
+
 ```c
 int myStrcmp(const char *s1, const char *s2) {
     while (*s1 && *s2 && *s1 == *s2) {
@@ -1492,6 +1591,9 @@ int myStrcmp(const char *s1, const char *s2) {
 ---
 
 ### Q38. Implement strcat ⭐⭐
+
+> **Q: Write your own `strcat()` — append string `src` to the end of `dest`.**
+> Input: `dest="Hello", src=" World"` → `dest` becomes `"Hello World"`
 
 ```c
 char* myStrcat(char *dest, const char *src) {
@@ -1513,6 +1615,9 @@ char* myStrcat(char *dest, const char *src) {
 
 ### Q39. Implement atoi (String to Integer) ⭐⭐⭐
 **This one is VERY likely — tests edge case handling**
+
+> **Q: Convert a string to an integer. Handle whitespace, sign (+/-), and stop at non-digit characters.**
+> Input: `"  -123abc"` → Output: `-123` | Input: `"42"` → Output: `42`
 
 ```c
 #include <stdio.h>
@@ -1555,6 +1660,9 @@ int main() {
 
 ### Q40. Two Sum — Find Pair with Given Sum ⭐⭐⭐
 
+> **Q: Given an array and a target sum, find two elements that add up to the target. Print their indices.**
+> Input: `arr=[2,7,11,15], target=9` → Output: `arr[0]=2 + arr[1]=7 = 9`
+
 ```c
 #include <stdio.h>
 
@@ -1584,6 +1692,9 @@ int main() {
 ### Q41. Binary Search ⭐⭐⭐
 **Must know — they can ask to search in a sorted array**
 
+> **Q: Given a sorted array, find the index of a target element. Return -1 if not found.**
+> Input: `arr=[1,3,5,7,9], target=7` → Output: `3`
+
 ```c
 int binarySearch(int arr[], int n, int target) {
     int left = 0, right = n - 1;
@@ -1605,6 +1716,9 @@ int binarySearch(int arr[], int n, int target) {
 ---
 
 ### Q42. Remove Duplicates from Sorted Array (In-Place) ⭐⭐⭐
+
+> **Q: Remove duplicate elements from a sorted array in-place. Return the new length.**
+> Input: `[1,1,2,2,3,4,4,5]` → Output: `[1,2,3,4,5]`, length = 5
 
 ```c
 #include <stdio.h>
@@ -1639,6 +1753,9 @@ int main() {
 ---
 
 ### Q43. Move All Zeros to End ⭐⭐
+
+> **Q: Move all zero elements to the end of the array, maintaining the order of non-zero elements.**
+> Input: `[0,1,0,3,12]` → Output: `[1,3,12,0,0]`
 
 ```c
 #include <stdio.h>
@@ -1677,6 +1794,9 @@ int main() {
 ---
 
 ### Q44. Create + Print a Singly Linked List ⭐⭐⭐
+
+> **Q: Create a singly linked list with given elements, insert at end, print the list, and free memory.**
+> Input: `10, 20, 30` → Output: `10 → 20 → 30 → NULL`
 
 ```c
 #include <stdio.h>
@@ -1738,6 +1858,9 @@ int main() {
 ### Q45. Reverse a Linked List ⭐⭐⭐
 **Classic C pointer question**
 
+> **Q: Reverse a singly linked list iteratively. Return the new head.**
+> Input: `1 → 2 → 3 → NULL` → Output: `3 → 2 → 1 → NULL`
+
 ```c
 struct Node* reverseList(struct Node *head) {
     struct Node *prev = NULL;
@@ -1765,6 +1888,9 @@ struct Node* reverseList(struct Node *head) {
 
 ### Q46. Detect Cycle in Linked List (Floyd's Algorithm) ⭐⭐
 
+> **Q: Detect if a linked list has a cycle (loop). Use O(1) extra space.**
+> Input: `1 → 2 → 3 → 4 → 2 (cycle)` → Output: `Cycle detected!`
+
 ```c
 int hasCycle(struct Node *head) {
     struct Node *slow = head, *fast = head;
@@ -1788,6 +1914,9 @@ int hasCycle(struct Node *head) {
 
 ### Q47. Spiral Matrix Print ⭐⭐⭐
 **Very common in C interviews for systems companies**
+
+> **Q: Print elements of a matrix in spiral order (right → down → left → up → repeat).**
+> Input: `3×4 matrix` → Output: `1 2 3 4 8 12 11 10 9 5 6 7`
 
 ```c
 #include <stdio.h>
@@ -1844,6 +1973,9 @@ int main() {
 
 ### Q48. GCD using Euclid's Algorithm ⭐⭐⭐
 
+> **Q: Find the Greatest Common Divisor of two numbers using recursion. Also find LCM.**
+> Input: `48, 18` → GCD: `6` | LCM: `144`
+
 ```c
 // Recursive (elegant)
 int gcd(int a, int b) {
@@ -1863,6 +1995,9 @@ int lcm(int a, int b) {
 ---
 
 ### Q49. Power Function (x^n) ⭐⭐
+
+> **Q: Calculate x raised to the power n. Show both O(n) and O(log n) approaches.**
+> Input: `base=2, exp=10` → Output: `1024`
 
 ```c
 // Simple recursive
@@ -1896,7 +2031,9 @@ int fastPower(int base, int exp) {
 ---
 
 ### Q50. Reverse Words in a String ⭐⭐⭐
-**"Hello World Soliton" → "Soliton World Hello"**
+
+> **Q: Reverse the order of words in a string (not individual characters). Do it in-place.**
+> Input: `"Hello World Soliton"` → Output: `"Soliton World Hello"`
 
 ```c
 #include <stdio.h>
@@ -1942,7 +2079,9 @@ int main() {
 ---
 
 ### Q51. String Compression ⭐⭐
-**"aaabbbcc" → "a3b3c2"**
+
+> **Q: Compress a string by replacing consecutive repeated characters with the character and its count.**
+> Input: `"aaabbbcc"` → Output: `"a3b3c2"` | Input: `"aabbccdd"` → Output: `"a2b2c2d2"`
 
 ```c
 #include <stdio.h>
@@ -1985,6 +2124,9 @@ int main() {
 
 ### Q52. Check if Two Strings are Anagrams ⭐⭐
 
+> **Q: Check if two strings are anagrams (contain same characters in different order).**
+> Input: `"listen", "silent"` → Output: `Anagram` | Input: `"hello", "world"` → Output: `Not anagram`
+
 ```c
 #include <stdio.h>
 #include <string.h>
@@ -2015,6 +2157,9 @@ int main() {
 ### Q53. Byte/Endianness Swap (32-bit) ⭐⭐
 **Soliton = embedded → endianness conversion is CRITICAL**
 
+> **Q: Reverse the byte order of a 32-bit integer (convert big-endian ↔ little-endian).**
+> Input: `0x12345678` → Output: `0x78563412`
+
 ```c
 #include <stdio.h>
 
@@ -2037,6 +2182,9 @@ int main() {
 
 ### Q54. Implement a Simple Circular Buffer (Ring Buffer) ⭐⭐
 **VERY embedded — used in UART, sensor data, etc.**
+
+> **Q: Implement a fixed-size circular buffer with enqueue, dequeue, isFull, isEmpty operations.**
+> Enqueue: 10, 20, 30 → Dequeue: 10, 20 → Enqueue: 40, 50, 60, 70 (wraps around)
 
 ```c
 #include <stdio.h>
@@ -2109,6 +2257,9 @@ int main() {
 
 ### Q55. Find First Non-Repeating Character in String ⭐⭐
 
+> **Q: Find the first character in a string that does not repeat.**
+> Input: `"aabcbdef"` → Output: `'c'` | Input: `"soliton"` → Output: `'s'`
+
 ```c
 #include <stdio.h>
 #include <string.h>
@@ -2136,6 +2287,9 @@ int main() {
 ---
 
 ### Q56. Merge Two Sorted Arrays ⭐⭐
+
+> **Q: Merge two sorted arrays into a single sorted array.**
+> Input: `a=[1,3,5,7], b=[2,4,6,8,10]` → Output: `[1,2,3,4,5,6,7,8,10]`
 
 ```c
 #include <stdio.h>
@@ -2176,8 +2330,9 @@ int main() {
 ### Q57. Jumping Numbers (SOLITON REPORTED!) ⭐⭐⭐
 **Reported:** Scribd interview experience — **exact question**
 
-> A jumping number is a number where adjacent digits differ by 1.
+> **Q: Print all jumping numbers up to a given limit. A jumping number is one where adjacent digits differ by exactly 1.**
 > E.g., 7, 10, 12, 21, 23, 32, 34, 45, 56, 67, 78, 89, 98, 101, 121...
+> Input: `limit=50` → Output: `0 1 2 3 4 5 6 7 8 9 10 12 21 23 32 34 43 45`
 
 ```c
 #include <stdio.h>
@@ -2235,6 +2390,9 @@ int main() {
 
 ### Q58. Left Rotate Array by K Positions ⭐⭐⭐
 
+> **Q: Rotate an array to the LEFT by K positions. Do it in O(n) time and O(1) space.**
+> Input: `arr=[1,2,3,4,5,6,7], k=3` → Output: `[4,5,6,7,1,2,3]`
+
 ```c
 #include <stdio.h>
 
@@ -2269,6 +2427,9 @@ int main() {
 
 ### Q59. Find Missing Number (1 to N) ⭐⭐⭐
 
+> **Q: An array contains numbers from 1 to N with one number missing. Find it.**
+> Input: `[1, 2, 4, 5, 6]` (N=6) → Output: `3`
+
 ```c
 #include <stdio.h>
 
@@ -2292,6 +2453,9 @@ int main() {
 
 ### Q60. Find Duplicate Number ⭐⭐
 
+> **Q: An array of N integers contains one duplicate. Find it using XOR (without extra space).**
+> Input: `[1, 3, 4, 2, 2]` → Output: `2`
+
 ```c
 #include <stdio.h>
 
@@ -2313,7 +2477,9 @@ int main() {
 ---
 
 ### Q61. Leaders in an Array ⭐⭐
-> An element is a leader if no element to its RIGHT is greater.
+
+> **Q: An element is a leader if no element to its RIGHT is greater. Print all leaders.**
+> Input: `[16, 17, 4, 3, 5, 2]` → Output: `17 5 2`
 
 ```c
 #include <stdio.h>
@@ -2341,6 +2507,9 @@ int main() {
 ---
 
 ### Q62. Frequency of Each Element ⭐⭐
+
+> **Q: Count and print how many times each element appears in an array.**
+> Input: `[1, 2, 2, 3, 1, 3, 3]` → Output: `1→2, 2→2, 3→3`
 
 ```c
 #include <stdio.h>
@@ -2372,6 +2541,9 @@ int main() {
 ---
 
 ### Q63. Intersection of Two Arrays ⭐⭐
+
+> **Q: Find elements that are common to both arrays (no duplicates in output).**
+> Input: `a=[1,2,3,4,5], b=[3,4,5,6,7]` → Output: `3 4 5`
 
 ```c
 #include <stdio.h>
@@ -2406,6 +2578,9 @@ int main() {
 ---
 
 ### Q64. Union of Two Arrays ⭐⭐
+
+> **Q: Find all distinct elements present in either of the two arrays.**
+> Input: `a=[1,2,3,4], b=[3,4,5,6]` → Output: `1 2 3 4 5 6`
 
 ```c
 #include <stdio.h>
@@ -2449,6 +2624,9 @@ int main() {
 
 ### Q65. Reverse a Number ⭐⭐⭐
 
+> **Q: Reverse the digits of an integer. Handle negative numbers.**
+> Input: `12345` → Output: `54321` | Input: `-789` → Output: `-987`
+
 ```c
 #include <stdio.h>
 
@@ -2476,6 +2654,9 @@ int main() {
 
 ### Q66. Sum of Digits ⭐⭐
 
+> **Q: Find the sum of all digits of a given number.**
+> Input: `1234` → Output: `10` (1+2+3+4)
+
 ```c
 int sumOfDigits(int n) {
     if (n < 0) n = -n;
@@ -2492,6 +2673,9 @@ int sumOfDigits(int n) {
 ---
 
 ### Q67. Decimal to Binary ⭐⭐
+
+> **Q: Convert a decimal integer to its binary representation.**
+> Input: `13` → Output: `1101` | Input: `255` → Output: `11111111`
 
 ```c
 #include <stdio.h>
@@ -2526,6 +2710,9 @@ int main() {
 
 ### Q68. Check Power of N ⭐⭐
 
+> **Q: Check if a number `num` is a perfect power of a given `base`.**
+> Input: `num=27, base=3` → Output: `Yes (3^3=27)` | Input: `num=20, base=3` → Output: `No`
+
 ```c
 int isPowerOfN(int num, int base) {
     if (num <= 0) return 0;
@@ -2542,6 +2729,9 @@ int isPowerOfN(int num, int base) {
 ---
 
 ### Q69. N-th Fibonacci Number (Iterative) ⭐⭐
+
+> **Q: Find the N-th Fibonacci number using iteration (not recursion). Fib: 0,1,1,2,3,5,8,13...**
+> Input: `n=10` → Output: `55`
 
 ```c
 int fibonacci(int n) {
@@ -2564,6 +2754,9 @@ int fibonacci(int n) {
 ---
 
 ### Q70. Count Vowels and Consonants ⭐⭐
+
+> **Q: Count the number of vowels (a,e,i,o,u) and consonants in a string.**
+> Input: `"Hello World"` → Output: `Vowels: 3, Consonants: 7`
 
 ```c
 #include <stdio.h>
@@ -2595,6 +2788,9 @@ int main() {
 
 ### Q71. Remove Duplicates from String ⭐⭐
 
+> **Q: Remove duplicate characters from a string, keeping only the first occurrence.**
+> Input: `"programming"` → Output: `"progamin"`
+
 ```c
 #include <stdio.h>
 #include <string.h>
@@ -2623,6 +2819,9 @@ int main() {
 ---
 
 ### Q72. Check if String is Rotation of Another ⭐⭐
+
+> **Q: Check if string s2 is a rotation of string s1.**
+> Input: `s1="abcde", s2="cdeab"` → Output: `Yes` | Input: `s1="abcde", s2="abced"` → Output: `No`
 
 ```c
 #include <stdio.h>
@@ -2653,6 +2852,9 @@ int main() {
 
 ### Q73. Convert String to Uppercase/Lowercase ⭐
 
+> **Q: Convert a string to all uppercase or all lowercase WITHOUT using library functions.**
+> Input: `"Hello World"` → Upper: `"HELLO WORLD"` | Lower: `"hello world"`
+
 ```c
 void toUpperCase(char *str) {
     for (int i = 0; str[i]; i++)
@@ -2670,6 +2872,9 @@ void toLowerCase(char *str) {
 ---
 
 ### Q74. Remove All Spaces from String ⭐
+
+> **Q: Remove all space characters from a string in-place.**
+> Input: `"hello world"` → Output: `"helloworld"`
 
 ```c
 void removeSpaces(char *str) {
@@ -2690,6 +2895,9 @@ void removeSpaces(char *str) {
 ---
 
 ### Q75. Implement Stack Using Array ⭐⭐⭐
+
+> **Q: Implement a stack data structure using an array with push, pop, peek, isEmpty, isFull operations.**
+> Operations: push(10), push(20), push(30) → peek()=30, pop()=30, peek()=20
 
 ```c
 #include <stdio.h>
@@ -2734,6 +2942,9 @@ int main() {
 
 ### Q76. Implement Queue Using Array ⭐⭐⭐
 
+> **Q: Implement a queue data structure using an array with enqueue, dequeue, isEmpty operations.**
+> Operations: enqueue(10), enqueue(20), enqueue(30) → dequeue()=10, dequeue()=20
+
 ```c
 #include <stdio.h>
 #define MAX 100
@@ -2774,6 +2985,9 @@ int main() {
 
 ### Q77. Sum of Matrix Diagonals ⭐⭐
 
+> **Q: Find the sum of elements on both diagonals of a square matrix.**
+> Input: `[[1,2,3],[4,5,6],[7,8,9]]` → Primary: `15 (1+5+9)`, Secondary: `15 (3+5+7)`
+
 ```c
 #include <stdio.h>
 
@@ -2801,6 +3015,9 @@ int main() {
 ---
 
 ### Q78. Search Element in Row-wise & Column-wise Sorted Matrix ⭐⭐
+
+> **Q: Search for a target in a matrix where each row and column is sorted. Do it in O(n+m).**
+> Input: target=5 in sorted 3×3 matrix → Output: `Found at (1, 1)`
 
 ```c
 #include <stdio.h>
@@ -2839,6 +3056,9 @@ int main() {
 
 ### Q79. Tower of Hanoi ⭐⭐
 
+> **Q: Print the steps to move N disks from peg A to peg C using peg B as auxiliary. Total moves = 2^n - 1.**
+> Input: `n=3` → Output: 7 move instructions
+
 ```c
 #include <stdio.h>
 
@@ -2863,6 +3083,9 @@ int main() {
 
 ### Q80. Sum of Array Using Recursion ⭐
 
+> **Q: Find the sum of all elements in an array using recursion (no loops).**
+> Input: `[1,2,3,4,5]` → Output: `15`
+
 ```c
 int sumArray(int arr[], int n) {
     if (n == 0) return 0;
@@ -2874,6 +3097,9 @@ int sumArray(int arr[], int n) {
 ---
 
 ### Q81. Print All Permutations of a String ⭐⭐
+
+> **Q: Print all possible arrangements (permutations) of characters in a string.**
+> Input: `"ABC"` → Output: `ABC, ACB, BAC, BCA, CBA, CAB`
 
 ```c
 #include <stdio.h>
